@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Wedding Invitation</title>
+
+  <!-- إعدادات معاينة الرابط على واتساب ومنصات التواصل (Link Preview) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Wedding Invitation | دعوة زفاف ملكية">
+  <meta property="og:description" content="We invite you to celebrate our special day with us. Click to view invitation & details! 💍✨">
+  <meta property="og:image" content="https://marwanselim360-web.github.io/invitation/groom.jpg">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="600">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Montserrat', sans-serif; background: #0c0a09; margin: 0; padding: 0; }
+    .font-script { font-family: 'Alex Brush', cursive; }
+    .font-luxury { font-family: 'Cormorant Garamond', serif; }
+
+    .slides-wrapper {
+      height: 100dvh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+    .slide-item {
+      height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .door-perspective { perspective: 1200px; }
+    .door-left { transform-origin: left; transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .door-right { transform-origin: right; transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .doors-open .door-left { transform: rotateY(-110deg); }
+    .doors-open .door-right { transform: rotateY(110deg); }
+    .doors-open .door-overlay { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+
+    .petal {
+      position: absolute;
+      background: radial-gradient(circle, #fbcfe8 20%, #f472b6 90%);
+      border-radius: 150% 0 150% 0;
+      pointer-events: none;
+      opacity: 0.7;
+      animation: fallPetals linear infinite;
+    }
+    @keyframes fallPetals {
+      0% { transform: translate3d(0, -10%, 0) rotate(0deg) scale(0.7); opacity: 0; }
+      15% { opacity: 0.8; }
+      100% { transform: translate3d(60px, 105vh, 0) rotate(540deg) scale(1.1); opacity: 0; }
+    }
+
+    .bar { width: 3px; background: #fef08a; border-radius: 2px; animation: bounce 1.1s ease infinite alternate; }
+    .bar:nth-child(2) { animation-delay: -0.3s; height: 16px; }
+    .bar:nth-child(3) { animation-delay: -0.6s; height: 12px; }
+    @keyframes bounce { 0% { height: 4px; } 100% { height: 18px; } }
+    .paused { animation-play-state: paused !important; }
+  </style>
+</head>
+<body class="flex justify-center items-center h-screen w-screen overflow-hidden">
+
+  <main id="cardBg" class="w-full max-w-[420px] h-[100dvh] bg-[#fcf9f5] relative shadow-2xl overflow-hidden flex flex-col border border-stone-800/40">
+
+    <div id="petalsContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30"></div>
+
+    <button id="floatingMusicBtn" onclick="toggleAudio()" class="absolute top-5 right-5 z-40 w-11 h-11 rounded-full flex items-center justify-center gap-1 shadow-xl border border-amber-300/40 bg-stone-900/80 backdrop-blur-md text-white transition hover:scale-105">
+      <span class="bar h-3"></span>
+      <span class="bar h-4"></span>
+      <span class="bar h-2"></span>
+    </button>
+
+    <!-- Grand Door -->
+    <div id="doorScreen" class="door-perspective absolute inset-0 z-50 flex items-center justify-center bg-stone-950 transition-opacity duration-700">
+      <div id="doorL" class="door-left absolute left-0 top-0 w-1/2 h-full bg-gradient-to-r from-amber-900 via-amber-700 to-yellow-600 border-r-2 border-yellow-300/70 shadow-2xl flex items-center justify-end pr-2">
+        <div class="w-5 h-28 border-2 border-amber-950/50 rounded-full bg-gradient-to-b from-amber-200 to-yellow-500 shadow-lg"></div>
+      </div>
+      <div id="doorR" class="door-right absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-amber-900 via-amber-700 to-yellow-600 border-l-2 border-yellow-300/70 shadow-2xl flex items-center justify-start pl-2">
+        <div class="w-5 h-28 border-2 border-amber-950/50 rounded-full bg-gradient-to-b from-amber-200 to-yellow-500 shadow-lg"></div>
+      </div>
+
+      <div class="door-overlay absolute z-20 flex flex-col items-center space-y-4 cursor-pointer text-center px-4" onclick="openGrandDoors()">
+        <div class="w-16 h-16 rounded-full bg-stone-900/95 border-2 border-amber-300 text-amber-300 flex items-center justify-center text-2xl shadow-2xl animate-pulse">❤</div>
+        <div class="space-y-1">
+          <p id="doorCoupleNames" class="text-amber-200 font-script text-3xl">Wedding Invitation</p>
+          <span class="inline-block bg-amber-400 text-stone-950 font-bold px-6 py-2 rounded-full text-[11px] tracking-widest uppercase shadow-xl hover:bg-amber-300 transition">Open Invitation ✉️</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slides Wrapper -->
+    <div id="slidesWrapper" class="slides-wrapper w-full h-full">
+
+      <!-- Slide 1: Names -->
+      <section class="slide-item px-6 text-center space-y-6">
+        <p class="text-[10px] tracking-[0.3em] uppercase text-amber-800 font-bold">Together With Their Families</p>
+        <div class="space-y-2 py-4">
+          <h1 id="groomDisplay" class="font-script text-6xl text-amber-950">Groom</h1>
+          <p class="font-luxury italic text-2xl text-stone-400">&</p>
+          <h1 id="brideDisplay" class="font-script text-6xl text-amber-950">Bride</h1>
+        </div>
+        <p id="dateDisplay" class="font-mono text-xs tracking-widest text-stone-500 uppercase">Date</p>
+        <div class="pt-8 text-stone-400 flex flex-col items-center gap-1 animate-bounce">
+          <span class="text-[9px] uppercase tracking-widest font-semibold">Swipe Up</span>
+          <span class="text-xs">↓</span>
+        </div>
+      </section>
+
+      <!-- Slide 2: Separated Photos -->
+      <section class="slide-item px-3 text-center space-y-3 w-full">
+        <p class="text-[11px] tracking-[0.25em] uppercase font-bold text-amber-800">The Groom & The Bride</p>
+
+        <div class="grid grid-cols-2 gap-3 w-full max-w-[400px] px-1">
+          
+          <!-- Groom Card -->
+          <div class="bg-white/95 backdrop-blur-md p-2 rounded-[26px] border border-stone-200 shadow-xl flex flex-col items-center">
+            <div class="w-full aspect-[4/5] rounded-[20px] overflow-hidden bg-stone-100 shadow-inner">
+              <img id="groomImgDisplay" src="groom.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="py-2 text-center">
+              <p id="groomCardName" class="font-script text-3xl text-amber-950 font-bold leading-tight">Groom</p>
+              <span class="text-[9px] uppercase tracking-widest text-stone-400 block mt-0.5">The Groom</span>
+            </div>
+          </div>
+
+          <!-- Bride Card -->
+          <div class="bg-white/95 backdrop-blur-md p-2 rounded-[26px] border border-stone-200 shadow-xl flex flex-col items-center">
+            <div class="w-full aspect-[4/5] rounded-[20px] overflow-hidden bg-stone-100 shadow-inner">
+              <img id="brideImgDisplay" src="bride.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="py-2 text-center">
+              <p id="brideCardName" class="font-script text-3xl text-amber-950 font-bold leading-tight">Bride</p>
+              <span class="text-[9px] uppercase tracking-widest text-stone-400 block mt-0.5">The Bride</span>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="font-luxury italic text-[11px] text-amber-900/80 pt-1">
+          "Two souls, one heart, together forever"
+        </p>
+      </section>
+
+      <!-- Slide 3: Countdown & Schedule -->
+      <section class="slide-item px-6 text-center space-y-5">
+        <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Save The Date</p>
+        <div class="grid grid-cols-4 gap-2 w-full max-w-[320px]">
+          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
+            <span id="cdDays" class="block font-mono text-xl font-bold text-amber-950">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400">Days</span>
+          </div>
+          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
+            <span id="cdHours" class="block font-mono text-xl font-bold text-amber-950">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400">Hours</span>
+          </div>
+          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
+            <span id="cdMins" class="block font-mono text-xl font-bold text-amber-950">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400">Mins</span>
+          </div>
+          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
+            <span id="cdSecs" class="block font-mono text-xl font-bold text-amber-950">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400">Secs</span>
+          </div>
+        </div>
+        <div class="bg-white/80 p-4 rounded-2xl border border-stone-200 shadow-sm w-full max-w-[320px] flex justify-around items-center font-luxury">
+          <div>
+            <span id="timeStart" class="text-xl font-bold text-stone-800">5:00 PM</span>
+            <span class="block text-[10px] uppercase text-stone-400">Starts</span>
+          </div>
+          <span class="w-8 h-0.5 bg-amber-900/20"></span>
+          <div>
+            <span class="text-xl font-bold text-stone-800">11:00 PM</span>
+            <span class="block text-[10px] uppercase text-stone-400">Ends</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Venue & Map -->
+      <section class="slide-item px-6 text-center space-y-6">
+        <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Location</p>
+        <div class="space-y-2">
+          <h2 id="hallDisplay" class="font-luxury text-3xl font-bold text-stone-800">Hall Name</h2>
+        </div>
+        <a id="mapsLink" href="#" target="_blank" class="inline-block bg-stone-900 text-amber-200 text-xs font-semibold px-8 py-3.5 rounded-full shadow-xl hover:bg-stone-800 transition">
+          View On Google Maps ↗
+        </a>
+        <div class="pt-3 flex flex-col items-center gap-1.5">
+          <a href="https://www.instagram.com/1eventapp" target="_blank" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-900/90 border border-amber-300/30 text-amber-200 text-[11px] font-semibold shadow-lg hover:scale-105 transition">
+            <span>📸</span>
+            <span>@1eventapp</span>
+          </a>
+          <p class="text-[8px] text-stone-400 uppercase tracking-widest">POWERED BY 1EVENTAPP</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <audio id="weddingAudio" loop preload="auto"></audio>
+
+  <script>
+    let isPlaying = false;
+    const audio = document.getElementById('weddingAudio');
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('WeddingDB', 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function loadSavedData() {
+      // 1. فحص بيانات الرابط أولاً (URL Parameters)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlGroom = urlParams.get('groom');
+      const urlBride = urlParams.get('bride');
+      const urlDate = urlParams.get('date');
+      const urlTime = urlParams.get('time');
+      const urlHall = urlParams.get('hall');
+      const urlMaps = urlParams.get('maps');
+      const urlColor = urlParams.get('color');
+      const urlGroomImg = urlParams.get('groomImg');
+      const urlBrideImg = urlParams.get('brideImg');
+      const urlAudio = urlParams.get('audio');
+
+      let hasUrlData = false;
+
+      if (urlGroom) {
+        document.getElementById('groomDisplay').innerText = urlGroom;
+        document.getElementById('groomCardName').innerText = urlGroom;
+        hasUrlData = true;
+      }
+      if (urlBride) {
+        document.getElementById('brideDisplay').innerText = urlBride;
+        document.getElementById('brideCardName').innerText = urlBride;
+        hasUrlData = true;
+      }
+      if (urlGroom && urlBride) {
+        document.getElementById('doorCoupleNames').innerText = urlGroom + ' & ' + urlBride;
+        document.title = `${urlGroom} & ${urlBride} | Wedding Invitation`;
+      }
+      if (urlDate) {
+        document.getElementById('dateDisplay').innerText = urlDate;
+        startCountdown(urlDate, urlTime || '17:00');
+        hasUrlData = true;
+      }
+      if (urlTime) {
+        document.getElementById('timeStart').innerText = urlTime;
+      }
+      if (urlHall) {
+        document.getElementById('hallDisplay').innerText = urlHall;
+      }
+      if (urlMaps) {
+        document.getElementById('mapsLink').href = urlMaps;
+      }
+      if (urlColor) {
+        document.getElementById('groomDisplay').style.color = urlColor;
+        document.getElementById('brideDisplay').style.color = urlColor;
+      }
+
+      // قراءة روابط الصور المباشرة من رابط الـ URL
+      if (urlGroomImg) {
+        document.getElementById('groomImgDisplay').src = urlGroomImg;
+      }
+      if (urlBrideImg) {
+        document.getElementById('brideImgDisplay').src = urlBrideImg;
+      }
+
+      // تعيين ملف الصوت
+      if (urlAudio) {
+        audio.src = urlAudio;
+      } else {
+        audio.src = 'song.mp3';
+      }
+
+      // 2. قراءة البيانات الاحتياطية من IndexedDB (لو الصفحة فُتحت محلياً)
+      try {
+        const db = await openDB();
+        const tx = db.transaction('data', 'readonly');
+        const req = tx.objectStore('data').get('inviteConfig');
+        
+        req.onsuccess = () => {
+          const data = req.result;
+          if (!data) return;
+
+          if (!hasUrlData) {
+            if (data.groom) {
+              document.getElementById('groomDisplay').innerText = data.groom;
+              document.getElementById('groomCardName').innerText = data.groom;
+            }
+            if (data.bride) {
+              document.getElementById('brideDisplay').innerText = data.bride;
+              document.getElementById('brideCardName').innerText = data.bride;
+            }
+            if (data.groom && data.bride) {
+              document.getElementById('doorCoupleNames').innerText = data.groom + ' & ' + data.bride;
+            }
+            if (data.date) {
+              document.getElementById('dateDisplay').innerText = data.date;
+              startCountdown(data.date, data.timeStart || '17:00');
+            }
+            if (data.timeStart) {
+              document.getElementById('timeStart').innerText = data.timeStart;
+            }
+            if (data.hall) {
+              document.getElementById('hallDisplay').innerText = data.hall;
+            }
+            if (data.maps) {
+              document.getElementById('mapsLink').href = data.maps;
+            }
+            if (data.primaryColor) {
+              document.getElementById('groomDisplay').style.color = data.primaryColor;
+              document.getElementById('brideDisplay').style.color = data.primaryColor;
+            }
+          }
+
+          if (data.cardBg) {
+            document.getElementById('cardBg').style.backgroundColor = data.cardBg;
+          }
+          if (!urlGroomImg && data.groomImg) {
+            document.getElementById('groomImgDisplay').src = data.groomImg;
+          }
+          if (!urlBrideImg && data.brideImg) {
+            document.getElementById('brideImgDisplay').src = data.brideImg;
+          }
+          if (!urlAudio && data.audioData) {
+            audio.src = data.audioData;
+          }
+        };
+      } catch (err) {
+        console.log('Using default assets');
+      }
+    }
+
+    function openGrandDoors() {
+      const doorScreen = document.getElementById('doorScreen');
+      doorScreen.classList.add('doors-open');
+
+      audio.play().then(() => {
+        isPlaying = true;
+      }).catch(e => console.log('Autoplay handled'));
+
+      setTimeout(() => {
+        doorScreen.style.opacity = '0';
+        setTimeout(() => doorScreen.style.display = 'none', 700);
+      }, 1200);
+    }
+
+    function toggleAudio() {
+      const bars = document.querySelectorAll('.bar');
+      if (isPlaying) {
+        audio.pause();
+        bars.forEach(b => b.classList.add('paused'));
+      } else {
+        audio.play();
+        bars.forEach(b => b.classList.remove('paused'));
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function startCountdown(dateStr, timeStr) {
+      const target = new Date(dateStr + ' ' + (timeStr || '17:00')).getTime();
+      if (isNaN(target)) return;
+      setInterval(() => {
+        const diff = target - new Date().getTime();
+        if (diff < 0) return;
+        document.getElementById('cdDays').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('cdHours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('cdMins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('cdSecs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+      }, 1000);
+    }
+
+    function initPetals() {
+      const box = document.getElementById('petalsContainer');
+      for (let i = 0; i < 14; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.style.left = Math.random() * 92 + '%';
+        p.style.animationDuration = (6 + Math.random() * 5) + 's';
+        p.style.animationDelay = Math.random() * 4 + 's';
+        p.style.width = (10 + Math.random() * 6) + 'px';
+        p.style.height = (14 + Math.random() * 6) + 'px';
+        box.appendChild(p);
+      }
+    }
+
+    window.onload = function() {
+      loadSavedData();
+      initPetals();
+    };
+  </script>
+</body>
+</html>

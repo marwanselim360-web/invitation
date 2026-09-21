@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tevetapp Studio - Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cairo:wght@400;600;700&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #090d16; color: #f3f4f6; }
+    .font-script { font-family: 'Alex Brush', cursive; }
+    .font-luxury { font-family: 'Cormorant Garamond', serif; }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto flex justify-between items-center pb-6 border-b border-stone-800">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 flex items-center justify-center text-stone-950 font-bold text-xl shadow-lg">1</div>
+      <div>
+        <h1 class="text-xl font-bold tracking-wide text-white">1evetapp Studio</h1>
+        <p class="text-xs text-stone-400">لوحة التحكم وتوليد دعوات الزفاف الملكية</p>
+      </div>
+    </div>
+    <button id="exportBtn" onclick="exportAndOpen()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+      <span id="exportBtnText">تصدير وتوليد الدعوة</span>
+      <span id="exportBtnIcon">🚀</span>
+    </button>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+
+    <!-- Form Section -->
+    <div class="lg:col-span-8 space-y-6">
+
+      <!-- Opening Style -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+          <span>✨</span> ستايل ونمط الدعوة (OPENING STYLE)
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer">
+            <div>
+              <p class="font-bold text-white text-sm">الباب الدهبي (Grand Doors)</p>
+              <p class="text-xs text-stone-400 mt-1">افتتاحية ثلاثية الأبعاد بضلف دهبية</p>
+            </div>
+            <span class="w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20"></span>
+          </div>
+          <div class="border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between opacity-50 cursor-not-allowed">
+            <div>
+              <p class="font-bold text-white text-sm">الظرف الكلاسيكي (Envelope)</p>
+              <p class="text-xs text-stone-400 mt-1">قريباً</p>
+            </div>
+            <span class="w-4 h-4 rounded-full border border-stone-600"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Colors -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+          <span>🎨</span> الألوان ونوع الخط
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">لون الخط الأساسي (Primary Color)</label>
+            <div class="flex items-center gap-3 bg-stone-950/80 border border-stone-800 p-2 rounded-xl">
+              <input type="color" id="primaryColorInput" value="#78350f" class="w-9 h-9 rounded-lg bg-transparent border-0 cursor-pointer">
+              <span id="colorHexText" class="text-xs font-mono text-stone-300">#78350f</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">لون خلفية الكارت (Card Background)</label>
+            <div class="flex items-center gap-3 bg-stone-950/80 border border-stone-800 p-2 rounded-xl">
+              <input type="color" id="bgColorInput" value="#fcf9f5" class="w-9 h-9 rounded-lg bg-transparent border-0 cursor-pointer">
+              <span id="bgHexText" class="text-xs font-mono text-stone-300">#fcf9f5</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Music -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+          <span>🎵</span> الأغنية والصوتيات
+        </h2>
+        <div class="bg-stone-950/60 border border-stone-800 p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="w-full md:w-auto">
+            <label class="block text-xs text-stone-400 mb-2">اختر ملف الأغنية (MP3)</label>
+            <input type="file" id="audioFileInput" accept="audio/*" class="text-xs text-stone-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:bg-amber-400 file:text-stone-950 file:font-bold hover:file:bg-amber-300 cursor-pointer">
+          </div>
+          <button id="previewAudioBtn" onclick="toggleAudioPreview()" class="w-full md:w-auto bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs px-5 py-2.5 rounded-xl border border-stone-700 transition">
+            تشغيل الصوت 🔈
+          </button>
+        </div>
+      </section>
+
+      <!-- Couple Data -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+          <span>👤</span> تفاصيل وأسماء العروسين
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">اسم العريس</label>
+            <input type="text" id="groomInput" value="Marwan" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">اسم العروسة</label>
+            <input type="text" id="brideInput" value="Mariam" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">تاريخ الحفل</label>
+            <input type="date" id="dateInput" value="2026-10-18" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">ميعاد الحفل (يبدأ من)</label>
+            <input type="text" id="timeInput" value="17:00" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">مكان القاعة / الفندق</label>
+            <input type="text" id="hallInput" value="DUSIT THANI" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">رابط لوكيشن خرائط جوجل</label>
+            <input type="text" id="mapsInput" value="https://maps.app.goo.gl/q6yVbSqUeXqSYq_4SA6" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+      </section>
+
+      <!-- Separate Photos -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+          <span>📸</span> صور العروسين المنفصلة
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-stone-950/60 border border-stone-800 p-4 rounded-2xl space-y-3">
+            <p class="text-xs font-bold text-stone-300">صورة العريس (Groom Image)</p>
+            <input type="file" id="groomImgInput" accept="image/*" class="text-xs text-stone-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:bg-stone-800 file:text-amber-300 file:font-bold hover:file:bg-stone-700 cursor-pointer">
+            <div class="w-20 h-24 rounded-xl border border-stone-800 overflow-hidden bg-stone-900 flex items-center justify-center">
+              <img id="groomPreview" class="w-full h-full object-cover hidden">
+              <span id="groomPlaceholder" class="text-[10px] text-stone-500">معاينة</span>
+            </div>
+          </div>
+
+          <div class="bg-stone-950/60 border border-stone-800 p-4 rounded-2xl space-y-3">
+            <p class="text-xs font-bold text-stone-300">صورة العروسة (Bride Image)</p>
+            <input type="file" id="brideImgInput" accept="image/*" class="text-xs text-stone-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:bg-stone-800 file:text-amber-300 file:font-bold hover:file:bg-stone-700 cursor-pointer">
+            <div class="w-20 h-24 rounded-xl border border-stone-800 overflow-hidden bg-stone-900 flex items-center justify-center">
+              <img id="bridePreview" class="w-full h-full object-cover hidden">
+              <span id="bridePlaceholder" class="text-[10px] text-stone-500">معاينة</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Live Preview Sidebar -->
+    <div class="lg:col-span-4 flex flex-col items-center">
+      <div class="sticky top-8 w-full max-w-[340px] space-y-3">
+        <p class="text-center text-xs font-bold text-stone-400">معاينة حية للموبايل (LIVE PREVIEW)</p>
+        
+        <div id="phonePreviewFrame" class="w-full aspect-[9/19] bg-[#fcf9f5] rounded-[40px] shadow-2xl border-4 border-stone-800 overflow-hidden relative flex flex-col justify-between p-5 text-center text-stone-800">
+          
+          <!-- Top Title -->
+          <div class="pt-4 space-y-1">
+            <p class="text-[8px] uppercase tracking-[0.25em] text-amber-800 font-bold">TOGETHER WITH THEIR FAMILIES</p>
+            <h3 id="prevGroom" class="font-script text-4xl text-amber-950 leading-tight">Marwan</h3>
+            <p class="font-luxury italic text-sm text-stone-400">&</p>
+            <h3 id="prevBride" class="font-script text-4xl text-amber-950 leading-tight">Mariam</h3>
+          </div>
+
+          <!-- Big Modern Photo Section (Morabba3at Kbeera) -->
+          <div class="my-2 space-y-2">
+            <div class="grid grid-cols-2 gap-2 w-full px-1">
+              <!-- Groom Box -->
+              <div class="bg-white/90 p-1.5 rounded-2xl border border-stone-200/80 shadow-md">
+                <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center">
+                  <img id="prevGroomThumb" class="w-full h-full object-cover hidden">
+                  <span id="prevGroomEmpty" class="text-[9px] text-stone-400">صورة العريس</span>
+                </div>
+                <p class="font-script text-lg text-amber-950 mt-1 font-bold">Groom</p>
+              </div>
+
+              <!-- Bride Box -->
+              <div class="bg-white/90 p-1.5 rounded-2xl border border-stone-200/80 shadow-md">
+                <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center">
+                  <img id="prevBrideThumb" class="w-full h-full object-cover hidden">
+                  <span id="prevBrideEmpty" class="text-[9px] text-stone-400">صورة العروسة</span>
+                </div>
+                <p class="font-script text-lg text-amber-950 mt-1 font-bold">Bride</p>
+              </div>
+            </div>
+
+            <!-- Gomla Romance Lay2a -->
+            <p class="font-luxury italic text-[11px] text-amber-900/80 pt-1">
+              "Two souls, one heart, together forever"
+            </p>
+          </div>
+
+          <!-- Bottom Info -->
+          <div class="pb-3 border-t border-stone-200/60 pt-2 space-y-0.5">
+            <p id="prevDate" class="text-[9px] font-mono tracking-widest text-stone-500 uppercase">2026-10-18</p>
+            <p id="prevHall" class="text-[9px] font-bold text-stone-700 uppercase">DUSIT THANI</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <audio id="audioPreviewPlayer" loop></audio>
+
+  <script>
+    let groomImgData = '';
+    let brideImgData = '';
+    let audioData = '';
+    let isAudioPlaying = false;
+    const audioEl = document.getElementById('audioPreviewPlayer');
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('WeddingDB', 1);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('data')) {
+            db.createObjectStore('data');
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    document.getElementById('groomInput').addEventListener('input', e => {
+      document.getElementById('prevGroom').innerText = e.target.value || 'Groom';
+    });
+    document.getElementById('brideInput').addEventListener('input', e => {
+      document.getElementById('prevBride').innerText = e.target.value || 'Bride';
+    });
+    document.getElementById('dateInput').addEventListener('input', e => {
+      document.getElementById('prevDate').innerText = e.target.value;
+    });
+    document.getElementById('hallInput').addEventListener('input', e => {
+      document.getElementById('prevHall').innerText = e.target.value;
+    });
+
+    document.getElementById('primaryColorInput').addEventListener('input', e => {
+      const val = e.target.value;
+      document.getElementById('colorHexText').innerText = val;
+      document.getElementById('prevGroom').style.color = val;
+      document.getElementById('prevBride').style.color = val;
+    });
+
+    document.getElementById('bgColorInput').addEventListener('input', e => {
+      const val = e.target.value;
+      document.getElementById('bgHexText').innerText = val;
+      document.getElementById('phonePreviewFrame').style.backgroundColor = val;
+    });
+
+    document.getElementById('groomImgInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          groomImgData = reader.result;
+          const thumb = document.getElementById('prevGroomThumb');
+          thumb.src = groomImgData;
+          thumb.classList.remove('hidden');
+          document.getElementById('prevGroomEmpty')?.classList.add('hidden');
+          
+          const prev = document.getElementById('groomPreview');
+          if (prev) {
+            prev.src = groomImgData;
+            prev.classList.remove('hidden');
+            document.getElementById('groomPlaceholder')?.classList.add('hidden');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('brideImgInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          brideImgData = reader.result;
+          const thumb = document.getElementById('prevBrideThumb');
+          thumb.src = brideImgData;
+          thumb.classList.remove('hidden');
+          document.getElementById('prevBrideEmpty')?.classList.add('hidden');
+
+          const prev = document.getElementById('bridePreview');
+          if (prev) {
+            prev.src = brideImgData;
+            prev.classList.remove('hidden');
+            document.getElementById('bridePlaceholder')?.classList.add('hidden');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('audioFileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          audioData = reader.result;
+          audioEl.src = audioData;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function toggleAudioPreview() {
+      const btn = document.getElementById('previewAudioBtn');
+      if (!audioEl.src && !audioData) audioEl.src = 'song.mp3';
+      if (isAudioPlaying) {
+        audioEl.pause();
+        btn.innerText = 'تشغيل الصوت 🔈';
+      } else {
+        audioEl.play();
+        btn.innerText = 'إيقاف الصوت 🔇';
+      }
+      isAudioPlaying = !isAudioPlaying;
+    }
+
+    // دالة رفع الصور سحابياً عبر ImgBB API
+    async function uploadToImgBB(base64Data) {
+      if (!base64Data) return '';
+      try {
+        const cleanBase64 = base64Data.split(',')[1];
+        const formData = new FormData();
+        formData.append('image', cleanBase64);
+
+        const res = await fetch('https://api.imgbb.com/1/upload?key=b72de503a4b3a14216a403c16aa04038', {
+          method: 'POST',
+          body: formData
+        });
+        const json = await res.json();
+        return (json && json.data && json.data.url) ? json.data.url : '';
+      } catch (err) {
+        console.error("ImgBB Upload Error:", err);
+        return '';
+      }
+    }
+
+    async function exportAndOpen() {
+      const btn = document.getElementById('exportBtn');
+      const btnText = document.getElementById('exportBtnText');
+      const btnIcon = document.getElementById('exportBtnIcon');
+
+      // تغيير حالة الزرار أثناء الرفع
+      btn.disabled = true;
+      btnText.innerText = 'جاري رفع الصور أونلاين...';
+      btnIcon.innerText = '⏳';
+
+      const groomVal = document.getElementById('groomInput').value || 'Marwan';
+      const brideVal = document.getElementById('brideInput').value || 'Mariam';
+      const dateVal = document.getElementById('dateInput').value || '2026-10-18';
+      const timeVal = document.getElementById('timeInput').value || '17:00';
+      const hallVal = document.getElementById('hallInput').value || 'DUSIT THANI';
+      const mapsVal = document.getElementById('mapsInput').value || '';
+      const colorVal = document.getElementById('primaryColorInput').value || '#78350f';
+      const bgVal = document.getElementById('bgColorInput').value || '#fcf9f5';
+
+      try {
+        // رفع الصور سحابياً للحصول على روابط مباشرة
+        let groomOnlineUrl = '';
+        let brideOnlineUrl = '';
+
+        if (groomImgData) {
+          groomOnlineUrl = await uploadToImgBB(groomImgData);
+        }
+        if (brideImgData) {
+          brideOnlineUrl = await uploadToImgBB(brideImgData);
+        }
+
+        const payload = {
+          groom: groomVal,
+          bride: brideVal,
+          date: dateVal,
+          timeStart: timeVal,
+          hall: hallVal,
+          maps: mapsVal,
+          primaryColor: colorVal,
+          cardBg: bgVal,
+          groomImg: groomOnlineUrl || groomImgData,
+          brideImg: brideOnlineUrl || brideImgData,
+          audioData: audioData
+        };
+
+        const db = await openDB();
+        const tx = db.transaction('data', 'readwrite');
+        tx.objectStore('data').put(payload, 'inviteConfig');
+        
+        tx.oncomplete = () => {
+          const params = new URLSearchParams({
+            groom: groomVal,
+            bride: brideVal,
+            date: dateVal,
+            time: timeVal,
+            hall: hallVal,
+            maps: mapsVal,
+            color: colorVal
+          });
+
+          // إضافة روابط الصور المباشرة للينك
+          if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
+          if (brideOnlineUrl) params.append('brideImg', brideOnlineUrl);
+          
+          // رابط جيت هب الرسمي الدائم
+          const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
+          const finalUrl = `${baseUrl}?${params.toString()}`;
+          
+          // إظهار الرابط في رسالة جاهزة للنسخ
+          prompt("تم تجهيز رابط الدعوة أونلاين بنجاح! انسخ الرابط من هنا:", finalUrl);
+          
+          // فتح صفحة الفرح أونلاين
+          window.open(finalUrl, '_blank');
+        };
+      } catch (err) {
+        console.error(err);
+        alert('حدث خطأ أثناء رفع البيانات');
+      } finally {
+        btn.disabled = false;
+        btnText.innerText = 'تصدير وتوليد الدعوة';
+        btnIcon.innerText = '🚀';
+      }
+    }
+  </script>
+</body>
+</html>

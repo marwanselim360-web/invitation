@@ -419,34 +419,42 @@
       }
     }
 
-    // اختصار الرابط مجاناً عبر TinyURL
+   // دالة اختصار الرابط المباشرة والسريعة جداً
     async function shortenUrl(longUrl, groom, bride) {
       try {
-        const cleanGroom = groom.trim().replace(/[^a-zA-Z0-9]/g, '');
-        const cleanBride = bride.trim().replace(/[^a-zA-Z0-9]/g, '');
+        const cleanGroom = (groom || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
+        const cleanBride = (bride || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
         const randomNum = Math.floor(100 + Math.random() * 900);
         const alias = `${cleanGroom}-${cleanBride}-wedding-${randomNum}`;
 
-        const targetApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}&alias=${encodeURIComponent(alias)}`;
-        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetApi)}`);
-        
-        if (res.ok) {
-          const shortResult = await res.text();
-          if (shortResult && shortResult.startsWith('http')) {
-            return shortResult;
+        // 1. تجربة الرابط السريع عبر is.gd (مباشر وبدون قيود CORS)
+        try {
+          const res = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&shorturl=${encodeURIComponent(alias)}`);
+          const data = await res.json();
+          if (data && data.shorturl) {
+            return data.shorturl;
           }
+        } catch (e1) {
+          console.warn("Custom alias error, trying standard shortener");
         }
 
-        const fallbackApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
-        const fallbackRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(fallbackApi)}`);
-        if (fallbackRes.ok) {
-          const fallbackResult = await fallbackRes.text();
-          if (fallbackResult && fallbackResult.startsWith('http')) return fallbackResult;
+        // 2. تجربة رابط مباشر بدون alias لو الاسم محجوز
+        const res2 = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`);
+        const data2 = await res2.json();
+        if (data2 && data2.shorturl) {
+          return data2.shorturl;
+        }
+
+        // 3. خيار بديل عبر TinyURL عبر corsproxy المباشر
+        const res3 = await fetch(`https://corsproxy.io/?url=${encodeURIComponent('https://tinyurl.com/api-create.php?url=' + encodeURIComponent(longUrl))}`);
+        if (res3.ok) {
+          const shortUrl = await res3.text();
+          if (shortUrl && shortUrl.startsWith('http')) return shortUrl.trim();
         }
 
         return longUrl;
       } catch (e) {
-        console.warn("Shortener failed, falling back to long URL", e);
+        console.warn("Shortener failed, fallback to original URL", e);
         return longUrl;
       }
     }

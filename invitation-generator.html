@@ -37,26 +37,45 @@
     <!-- Form Section -->
     <div class="lg:col-span-8 space-y-6">
 
-      <!-- Opening Style -->
+      <!-- Opening Style Selection -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
           <span>✨</span> ستايل ونمط الدعوة (OPENING STYLE)
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer">
+          <!-- نمط الباب الذهبي -->
+          <div id="doorsOption" onclick="selectStyle('doors')" class="border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition">
             <div>
               <p class="font-bold text-white text-sm">الباب الدهبي (Grand Doors)</p>
               <p class="text-xs text-stone-400 mt-1">افتتاحية ثلاثية الأبعاد بضلف دهبية</p>
             </div>
-            <span class="w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20"></span>
+            <span id="doorsIndicator" class="w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20"></span>
           </div>
-          <div class="border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between opacity-50 cursor-not-allowed">
+          
+          <!-- نمط الظرف الملكي بختم الشمع -->
+          <div id="envelopeOption" onclick="selectStyle('envelope')" class="border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition">
             <div>
-              <p class="font-bold text-white text-sm">الظرف الكلاسيكي (Envelope)</p>
-              <p class="text-xs text-stone-400 mt-1">قريباً</p>
+              <p class="font-bold text-white text-sm">الظرف الملكي (Wax-Sealed Envelope)</p>
+              <p class="text-xs text-stone-400 mt-1">ختم شمع بارز بحروف العروسين</p>
             </div>
-            <span class="w-4 h-4 rounded-full border border-stone-600"></span>
+            <span id="envelopeIndicator" class="w-4 h-4 rounded-full border border-stone-600"></span>
           </div>
+        </div>
+      </section>
+
+      <!-- Wedding Timeline Option (اختياري) -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+              <span>⏳</span> جدول فقرات الحفل (Wedding Timeline)
+            </h2>
+            <p class="text-xs text-stone-400 mt-1">عرض مواعيد الاستقبال، الزفة، العشاء، والرقصة الأولى</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="timelineToggle" checked class="sr-only peer">
+            <div class="w-11 h-6 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+          </label>
         </div>
       </section>
 
@@ -175,7 +194,7 @@
             <h3 id="prevBride" class="font-script text-4xl text-amber-950 leading-tight">Mariam</h3>
           </div>
 
-          <!-- Big Modern Photo Section (Morabba3at Kbeera) -->
+          <!-- Big Modern Photo Section -->
           <div class="my-2 space-y-2">
             <div class="grid grid-cols-2 gap-2 w-full px-1">
               <!-- Groom Box -->
@@ -197,7 +216,6 @@
               </div>
             </div>
 
-            <!-- Gomla Romance Lay2a -->
             <p class="font-luxury italic text-[11px] text-amber-900/80 pt-1">
               "Two souls, one heart, together forever"
             </p>
@@ -218,11 +236,34 @@
   <audio id="audioPreviewPlayer" loop></audio>
 
   <script>
+    let selectedOpeningStyle = 'doors'; // 'doors' or 'envelope'
     let groomImgData = '';
     let brideImgData = '';
     let audioData = '';
     let isAudioPlaying = false;
     const audioEl = document.getElementById('audioPreviewPlayer');
+
+    function selectStyle(style) {
+      selectedOpeningStyle = style;
+      const doorsOpt = document.getElementById('doorsOption');
+      const envOpt = document.getElementById('envelopeOption');
+      const doorsInd = document.getElementById('doorsIndicator');
+      const envInd = document.getElementById('envelopeIndicator');
+
+      if (style === 'doors') {
+        doorsOpt.className = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
+        doorsInd.className = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20";
+        
+        envOpt.className = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
+        envInd.className = "w-4 h-4 rounded-full border border-stone-600";
+      } else {
+        envOpt.className = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
+        envInd.className = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20";
+        
+        doorsOpt.className = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
+        doorsInd.className = "w-4 h-4 rounded-full border border-stone-600";
+      }
+    }
 
     function openDB() {
       return new Promise((resolve, reject) => {
@@ -333,7 +374,7 @@
       isAudioPlaying = !isAudioPlaying;
     }
 
-    // دالة ضغط الصور لتحويل حجمها من عدة ميجابايت إلى حوالي 100 كيلوبايت فقط قبل الرفع
+    // ضغط الصور لتقليل الحجم إلى ~100KB لسرعة فائقة
     function compressImage(base64Str, maxWidth = 800, quality = 0.75) {
       return new Promise((resolve) => {
         const img = new Image();
@@ -357,7 +398,7 @@
       });
     }
 
-    // دالة رفع الصور سحابياً عبر ImgBB API بعد ضغطها
+    // رفع الصور سحابياً عبر ImgBB
     async function uploadToImgBB(base64Data) {
       if (!base64Data) return '';
       try {
@@ -378,7 +419,7 @@
       }
     }
 
-    // دالة اختصار الرابط المجانية وغير المحدودة باسم العروسين عبر TinyURL API
+    // اختصار الرابط مجاناً عبر TinyURL
     async function shortenUrl(longUrl, groom, bride) {
       try {
         const cleanGroom = groom.trim().replace(/[^a-zA-Z0-9]/g, '');
@@ -386,7 +427,6 @@
         const randomNum = Math.floor(100 + Math.random() * 900);
         const alias = `${cleanGroom}-${cleanBride}-wedding-${randomNum}`;
 
-        // محاولة الحصول على رابط مخصص باسم العروسين
         const targetApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}&alias=${encodeURIComponent(alias)}`;
         const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetApi)}`);
         
@@ -397,7 +437,6 @@
           }
         }
 
-        // رابط بديل تلقائي في حال حدوث أي ضغط على السيرفر
         const fallbackApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
         const fallbackRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(fallbackApi)}`);
         if (fallbackRes.ok) {
@@ -417,9 +456,8 @@
       const btnText = document.getElementById('exportBtnText');
       const btnIcon = document.getElementById('exportBtnIcon');
 
-      // تغيير حالة الزرار أثناء الرفع
       btn.disabled = true;
-      btnText.innerText = 'جاري رفع الصور واختصار الرابط...';
+      btnText.innerText = 'جاري ضغط ورفع الصور...';
       btnIcon.innerText = '⏳';
 
       const groomVal = document.getElementById('groomInput').value || 'Marwan';
@@ -430,9 +468,9 @@
       const mapsVal = document.getElementById('mapsInput').value || '';
       const colorVal = document.getElementById('primaryColorInput').value || '#78350f';
       const bgVal = document.getElementById('bgColorInput').value || '#fcf9f5';
+      const timelineEnabled = document.getElementById('timelineToggle').checked;
 
       try {
-        // رفع الصور سحابياً بعد الضغط للحصول على روابط مباشرة
         let groomOnlineUrl = '';
         let brideOnlineUrl = '';
 
@@ -454,7 +492,9 @@
           cardBg: bgVal,
           groomImg: groomOnlineUrl || groomImgData,
           brideImg: brideOnlineUrl || brideImgData,
-          audioData: audioData
+          audioData: audioData,
+          style: selectedOpeningStyle,
+          timeline: timelineEnabled
         };
 
         const db = await openDB();
@@ -469,29 +509,26 @@
             time: timeVal,
             hall: hallVal,
             maps: mapsVal,
-            color: colorVal
+            color: colorVal,
+            style: selectedOpeningStyle,
+            timeline: timelineEnabled ? 'true' : 'false'
           });
 
-          // إضافة روابط الصور المباشرة للينك
           if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
           if (brideOnlineUrl) params.append('brideImg', brideOnlineUrl);
           
-          // رابط جيت هب الرسمي
           const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
           const longUrl = `${baseUrl}?${params.toString()}`;
           
-          // اختصار الرابط تلقائياً ليكون شيك باسم العروسين وبدون كلمة github
+          btnText.innerText = 'جاري تجهيز الرابط المختصر...';
           const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
           
-          // إظهار الرابط المختصر في رسالة جاهزة للنسخ
           prompt("تم تجهيز رابط الدعوة الملكي بنجاح! انسخ الرابط المختصر من هنا:", finalShortUrl);
-          
-          // فتح صفحة الفرح
           window.open(finalShortUrl, '_blank');
         };
       } catch (err) {
         console.error(err);
-        alert('حدث خطأ أثناء رفع البيانات');
+        alert('حدث خطأ أثناء معالجة البيانات');
       } finally {
         btn.disabled = false;
         btnText.innerText = 'تصدير وتوليد الدعوة';

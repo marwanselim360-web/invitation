@@ -378,6 +378,40 @@
       }
     }
 
+    // دالة اختصار الرابط المجانية وغير المحدودة باسم العروسين عبر TinyURL API
+    async function shortenUrl(longUrl, groom, bride) {
+      try {
+        const cleanGroom = groom.trim().replace(/[^a-zA-Z0-9]/g, '');
+        const cleanBride = bride.trim().replace(/[^a-zA-Z0-9]/g, '');
+        const randomNum = Math.floor(100 + Math.random() * 900);
+        const alias = `${cleanGroom}-${cleanBride}-wedding-${randomNum}`;
+
+        // محاولة الحصول على رابط مخصص باسم العروسين
+        const targetApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}&alias=${encodeURIComponent(alias)}`;
+        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetApi)}`);
+        
+        if (res.ok) {
+          const shortResult = await res.text();
+          if (shortResult && shortResult.startsWith('http')) {
+            return shortResult;
+          }
+        }
+
+        // رابط بديل تلقائي في حال حدوث أي ضغط على السيرفر
+        const fallbackApi = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
+        const fallbackRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(fallbackApi)}`);
+        if (fallbackRes.ok) {
+          const fallbackResult = await fallbackRes.text();
+          if (fallbackResult && fallbackResult.startsWith('http')) return fallbackResult;
+        }
+
+        return longUrl;
+      } catch (e) {
+        console.warn("Shortener failed, falling back to long URL", e);
+        return longUrl;
+      }
+    }
+
     async function exportAndOpen() {
       const btn = document.getElementById('exportBtn');
       const btnText = document.getElementById('exportBtnText');
@@ -385,7 +419,7 @@
 
       // تغيير حالة الزرار أثناء الرفع
       btn.disabled = true;
-      btnText.innerText = 'جاري ضغط ورفع الصور...';
+      btnText.innerText = 'جاري رفع الصور واختصار الرابط...';
       btnIcon.innerText = '⏳';
 
       const groomVal = document.getElementById('groomInput').value || 'Marwan';
@@ -427,7 +461,7 @@
         const tx = db.transaction('data', 'readwrite');
         tx.objectStore('data').put(payload, 'inviteConfig');
         
-        tx.oncomplete = () => {
+        tx.oncomplete = async () => {
           const params = new URLSearchParams({
             groom: groomVal,
             bride: brideVal,
@@ -442,15 +476,18 @@
           if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
           if (brideOnlineUrl) params.append('brideImg', brideOnlineUrl);
           
-          // رابط جيت هب الرسمي الدائم
+          // رابط جيت هب الرسمي
           const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
-          const finalUrl = `${baseUrl}?${params.toString()}`;
+          const longUrl = `${baseUrl}?${params.toString()}`;
           
-          // إظهار الرابط في رسالة جاهزة للنسخ
-          prompt("تم تجهيز رابط الدعوة أونلاين بنجاح! انسخ الرابط من هنا:", finalUrl);
+          // اختصار الرابط تلقائياً ليكون شيك باسم العروسين وبدون كلمة github
+          const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
           
-          // فتح صفحة الفرح أونلاين
-          window.open(finalUrl, '_blank');
+          // إظهار الرابط المختصر في رسالة جاهزة للنسخ
+          prompt("تم تجهيز رابط الدعوة الملكي بنجاح! انسخ الرابط المختصر من هنا:", finalShortUrl);
+          
+          // فتح صفحة الفرح
+          window.open(finalShortUrl, '_blank');
         };
       } catch (err) {
         console.error(err);

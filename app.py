@@ -1,21 +1,42 @@
-from flask import Flask, send_from_directory
-import os
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import urllib.request
+import urllib.parse
 
 app = Flask(__name__)
+# السماح للواجهة بالاتصال بالباك إند بدون مشاكل
+CORS(app)
 
-# المجلد الحالي
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+@app.route('/shorten', methods=['POST'])
+def shorten():
+    data = request.get_json()
+    long_url = data.get('url')
+    groom = data.get('groom', 'groom')
+    bride = data.get('bride', 'bride')
 
-# فتح الدعوة مباشرة بالرابط
-@app.route('/invite')
-def serve_invite():
-    return send_from_directory(BASE_DIR, 'invite.html')
+    if not long_url:
+        return jsonify({'error': 'No URL provided'}), 400
 
-# تشغيل الأغنية وصور العروسين
-@app.route('/<path:filename>')
-def serve_static(filename):
-    return send_from_directory(BASE_DIR, filename)
+    alias = f"{groom.strip()}-{bride.strip()}-wedding".replace(" ", "-")
+
+    try:
+        # الاتصال بـ TinyURL مباشرة من السيرفر (بدون قيود متصفح)
+        api_url = f"https://tinyurl.com/api-create.php?url={urllib.parse.quote(long_url)}&alias={urllib.parse.quote(alias)}"
+        req = urllib.request.Request(api_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            short_url = response.read().decode('utf-8').strip()
+            return jsonify({'shortUrl': short_url})
+    except Exception:
+        try:
+            # لو الاسم محجوز، اختصار عادي برقم عشوائي
+            api_url_fallback = f"https://tinyurl.com/api-create.php?url={urllib.parse.quote(long_url)}"
+            req = urllib.request.Request(api_url_fallback, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=5) as response:
+                short_url = response.read().decode('utf-8').strip()
+                return jsonify({'shortUrl': short_url})
+        except Exception as e:
+            return jsonify({'shortUrl': long_url, 'error': str(e)}), 200
 
 if __name__ == '__main__':
-    # تشغيل السيرفر على بورت 5000
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    print("🚀 Wedding Shortener Backend is running on http://127.0.0.1:5000")
+    app.run(port=5000, debug=True)

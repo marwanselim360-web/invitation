@@ -238,9 +238,8 @@
         <button id="copyBtn" onclick="copyLinkToClipboard()" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs transition">نسخ 📋</button>
       </div>
 
-      <!-- زر اختصار بديل فوري بنقرة واحدة في حال الرغبة -->
       <button id="customTinyBtn" onclick="openTinyUrlHelper()" class="w-full bg-stone-800 hover:bg-stone-700 border border-amber-400/30 text-amber-200 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition">
-        <span>✨</span> تخصيص رابط قصير باسم العروسين (TinyURL)
+        <span>✨</span> تخصيص رابط مخصص باسم العروسين (TinyURL)
       </button>
 
       <div class="flex gap-3 pt-2">
@@ -423,21 +422,21 @@
       }
     }
 
-    // دالة محاولة الاختصار المباشر
+    // دالة اختصار الرابط عبر استدعاء الباك إند المحلي مباشرة بدون قيود CORS
     async function shortenUrl(longUrl, groom, bride) {
-      const cleanGroom = (groom || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
-      const cleanBride = (bride || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
-      const randomNum = Math.floor(100 + Math.random() * 900);
-      const alias = `${cleanGroom}-${cleanBride}-${randomNum}`;
-
       try {
-        const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}&alias=${encodeURIComponent(alias)}`);
-        if (res.ok) {
-          const txt = await res.text();
-          if (txt && txt.startsWith('http')) return txt.trim();
+        const res = await fetch('http://127.0.0.1:5000/shorten', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: longUrl, groom: groom, bride: bride })
+        });
+        const data = await res.json();
+        if (data && data.shortUrl) {
+          return data.shortUrl;
         }
-      } catch (e) {}
-
+      } catch (err) {
+        console.warn("Backend error or unreachable, using original link", err);
+      }
       return longUrl;
     }
 
@@ -451,7 +450,6 @@
       setTimeout(() => copyBtn.innerText = 'نسخ 📋', 2000);
     }
 
-    // زر تحويل الرابط تلقائياً إلى رابط قصير باسم العروسين
     function openTinyUrlHelper() {
       const cleanGroom = (globalGroomName || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
       const cleanBride = (globalBrideName || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
@@ -512,7 +510,7 @@
         const longUrl = `${baseUrl}?${params.toString()}`;
         globalOriginalLongUrl = longUrl;
         
-        btnText.innerText = 'جاري تجهيز الرابط...';
+        btnText.innerText = 'جاري اختصار الرابط عبر السيرفر...';
         const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
         
         document.getElementById('finalResultInput').value = finalShortUrl;

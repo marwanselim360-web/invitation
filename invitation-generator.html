@@ -453,7 +453,7 @@
       return longUrl;
     }
 
-    async function exportAndOpen() {
+   async function exportAndOpen() {
       const btn = document.getElementById('exportBtn');
       const btnText = document.getElementById('exportBtnText');
       const btnIcon = document.getElementById('exportBtnIcon');
@@ -483,54 +483,32 @@
           brideOnlineUrl = await uploadToImgBB(brideImgData);
         }
 
-        const payload = {
+        const params = new URLSearchParams({
           groom: groomVal,
           bride: brideVal,
           date: dateVal,
-          timeStart: timeVal,
+          time: timeVal,
           hall: hallVal,
           maps: mapsVal,
-          primaryColor: colorVal,
-          cardBg: bgVal,
-          groomImg: groomOnlineUrl || groomImgData,
-          brideImg: brideOnlineUrl || brideImgData,
-          audioData: audioData,
+          color: colorVal,
           style: selectedOpeningStyle,
-          timeline: timelineEnabled
-        };
+          timeline: timelineEnabled ? 'true' : 'false'
+        });
 
-        const db = await openDB();
-        const tx = db.transaction('data', 'readwrite');
-        tx.objectStore('data').put(payload, 'inviteConfig');
+        if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
+        if (brideOnlineUrl) params.append('brideImg', brideOnlineUrl);
         
-        tx.oncomplete = async () => {
-          const params = new URLSearchParams({
-            groom: groomVal,
-            bride: brideVal,
-            date: dateVal,
-            time: timeVal,
-            hall: hallVal,
-            maps: mapsVal,
-            color: colorVal,
-            style: selectedOpeningStyle,
-            timeline: timelineEnabled ? 'true' : 'false'
-          });
-
-          if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
-          if (brideOnlineUrl) params.append('brideImg', brideOnlineUrl);
-          
-          const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
-          const longUrl = `${baseUrl}?${params.toString()}`;
-          
-          btnText.innerText = 'جاري تجهيز الرابط المختصر...';
-          const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
-          
-          prompt("تم تجهيز رابط الدعوة الملكي بنجاح! انسخ الرابط المختصر من هنا:", finalShortUrl);
-          window.open(finalShortUrl, '_blank');
-        };
+        const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
+        const longUrl = `${baseUrl}?${params.toString()}`;
+        
+        btnText.innerText = 'جاري تجهيز الرابط المختصر...';
+        const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
+        
+        prompt("تم تجهيز رابط الدعوة الملكي بنجاح! انسخ الرابط المختصر من هنا:", finalShortUrl);
+        window.open(finalShortUrl, '_blank');
       } catch (err) {
-        console.error(err);
-        alert('حدث خطأ أثناء معالجة البيانات');
+        console.error("Export error:", err);
+        alert('حدث خطأ أثناء معالجة البيانات: ' + err.message);
       } finally {
         btn.disabled = false;
         btnText.innerText = 'تصدير وتوليد الدعوة';

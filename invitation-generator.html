@@ -61,7 +61,7 @@
         </div>
       </section>
 
-      <!-- Wedding Timeline Option (اختياري) -->
+      <!-- Wedding Timeline Option -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <div class="flex items-center justify-between">
           <div>
@@ -226,20 +226,25 @@
 
   </main>
 
-  <!-- نافذة عرض الرابط الجاهز للنسخ بنقرة واحدة -->
-  <div id="linkModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 border border-amber-400/40 rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
-      <div class="w-14 h-14 mx-auto rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl">🎉</div>
+  <!-- نافذة عرض الرابط بنقرة واحدة -->
+  <div id="linkModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-amber-400/50 rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
+      <div class="w-14 h-14 mx-auto rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl">💍</div>
       <h3 class="text-lg font-bold text-white">تم تجهيز رابط الدعوة الملكي بنجاح!</h3>
-      <p class="text-xs text-stone-400">يمكنك نسخ الرابط ومشاركته مباشرة مع المعازيم على واتساب</p>
+      <p class="text-xs text-stone-400">انسخ الرابط لمشاركته مع المعازيم على واتساب</p>
       
       <div class="flex items-center gap-2 bg-stone-950 border border-stone-800 rounded-2xl p-2">
         <input type="text" id="finalResultInput" readonly class="bg-transparent text-xs text-amber-200 flex-1 outline-none px-2 font-mono" dir="ltr">
         <button id="copyBtn" onclick="copyLinkToClipboard()" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs transition">نسخ 📋</button>
       </div>
 
+      <!-- زر اختصار بديل فوري بنقرة واحدة في حال الرغبة -->
+      <button id="customTinyBtn" onclick="openTinyUrlHelper()" class="w-full bg-stone-800 hover:bg-stone-700 border border-amber-400/30 text-amber-200 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition">
+        <span>✨</span> تخصيص رابط قصير باسم العروسين (TinyURL)
+      </button>
+
       <div class="flex gap-3 pt-2">
-        <button onclick="window.open(document.getElementById('finalResultInput').value, '_blank')" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg transition">فتح الدعوة الآن ↗</button>
+        <button onclick="window.open(document.getElementById('finalResultInput').value, '_blank')" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg transition">فتح الدعوة الآن ↗</button>
         <button onclick="document.getElementById('linkModal').classList.add('hidden')" class="bg-stone-800 hover:bg-stone-700 text-stone-300 font-bold px-5 py-2.5 rounded-xl text-xs transition">إغلاق</button>
       </div>
     </div>
@@ -253,6 +258,9 @@
     let brideImgData = '';
     let audioData = '';
     let isAudioPlaying = false;
+    let globalOriginalLongUrl = '';
+    let globalGroomName = '';
+    let globalBrideName = '';
     const audioEl = document.getElementById('audioPreviewPlayer');
 
     function selectStyle(style) {
@@ -415,40 +423,22 @@
       }
     }
 
-    // دالة اختصار الروابط الرسمية عبر تقنية JSONP (تتجاوز كل قيود CORS)
-    function shortenUrl(longUrl, groom, bride) {
-      return new Promise((resolve) => {
-        const timeout = setTimeout(() => {
-          resolve(longUrl);
-        }, 3500);
+    // دالة محاولة الاختصار المباشر
+    async function shortenUrl(longUrl, groom, bride) {
+      const cleanGroom = (groom || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
+      const cleanBride = (bride || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      const alias = `${cleanGroom}-${cleanBride}-${randomNum}`;
 
-        const callbackName = 'isgd_callback_' + Math.floor(Math.random() * 1000000);
-        
-        window[callbackName] = function(data) {
-          clearTimeout(timeout);
-          try {
-            const el = document.getElementById(callbackName);
-            if (el) el.remove();
-            delete window[callbackName];
-          } catch(e) {}
+      try {
+        const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}&alias=${encodeURIComponent(alias)}`);
+        if (res.ok) {
+          const txt = await res.text();
+          if (txt && txt.startsWith('http')) return txt.trim();
+        }
+      } catch (e) {}
 
-          if (data && data.shorturl) {
-            resolve(data.shorturl);
-          } else {
-            resolve(longUrl);
-          }
-        };
-
-        const script = document.createElement('script');
-        script.id = callbackName;
-        script.src = `https://is.gd/create.php?format=json&callback=${callbackName}&url=${encodeURIComponent(longUrl)}`;
-        script.onerror = function() {
-          clearTimeout(timeout);
-          try { script.remove(); delete window[callbackName]; } catch(e) {}
-          resolve(longUrl);
-        };
-        document.body.appendChild(script);
-      });
+      return longUrl;
     }
 
     function copyLinkToClipboard() {
@@ -461,13 +451,22 @@
       setTimeout(() => copyBtn.innerText = 'نسخ 📋', 2000);
     }
 
+    // زر تحويل الرابط تلقائياً إلى رابط قصير باسم العروسين
+    function openTinyUrlHelper() {
+      const cleanGroom = (globalGroomName || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
+      const cleanBride = (globalBrideName || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
+      const alias = `${cleanGroom}-${cleanBride}-wedding`;
+      const tinyUrlHelper = `https://tinyurl.com/app?url=${encodeURIComponent(globalOriginalLongUrl)}&alias=${encodeURIComponent(alias)}`;
+      window.open(tinyUrlHelper, '_blank');
+    }
+
     async function exportAndOpen() {
       const btn = document.getElementById('exportBtn');
       const btnText = document.getElementById('exportBtnText');
       const btnIcon = document.getElementById('exportBtnIcon');
 
       btn.disabled = true;
-      btnText.innerText = 'جاري رفع الصور وضغطها...';
+      btnText.innerText = 'جاري ضغط ورفع الصور...';
       btnIcon.innerText = '⏳';
 
       const groomVal = document.getElementById('groomInput').value || 'Marwan';
@@ -479,6 +478,9 @@
       const colorVal = document.getElementById('primaryColorInput').value || '#78350f';
       const bgVal = document.getElementById('bgColorInput').value || '#fcf9f5';
       const timelineEnabled = document.getElementById('timelineToggle').checked;
+
+      globalGroomName = groomVal;
+      globalBrideName = brideVal;
 
       try {
         let groomOnlineUrl = '';
@@ -508,16 +510,16 @@
         
         const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
         const longUrl = `${baseUrl}?${params.toString()}`;
+        globalOriginalLongUrl = longUrl;
         
-        btnText.innerText = 'جاري توليد الرابط القصير...';
+        btnText.innerText = 'جاري تجهيز الرابط...';
         const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
         
-        // إظهار نافذة النتيجة الاحترافية
         document.getElementById('finalResultInput').value = finalShortUrl;
         document.getElementById('linkModal').classList.remove('hidden');
       } catch (err) {
         console.error("Export error:", err);
-        alert('حدث خطأ أثناء معالجة البيانات: ' + err.message);
+        alert('حدث خطأ أثناء تجهيز الرابط: ' + err.message);
       } finally {
         btn.disabled = false;
         btnText.innerText = 'تصدير وتوليد الدعوة';

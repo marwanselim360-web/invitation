@@ -419,44 +419,38 @@
       }
     }
 
-   // دالة اختصار الرابط المباشرة والسريعة جداً
+  // دالة اختصار الرابط المجانية والمباشرة 100%
     async function shortenUrl(longUrl, groom, bride) {
+      const cleanGroom = (groom || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
+      const cleanBride = (bride || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      const alias = `${cleanGroom}-${cleanBride}-wedding-${randomNum}`;
+
+      // 1. استخدام TinyURL عبر بروكسي كود64 المفتوح
       try {
-        const cleanGroom = (groom || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
-        const cleanBride = (bride || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
-        const randomNum = Math.floor(100 + Math.random() * 900);
-        const alias = `${cleanGroom}-${cleanBride}-wedding-${randomNum}`;
-
-        // 1. تجربة الرابط السريع عبر is.gd (مباشر وبدون قيود CORS)
-        try {
-          const res = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&shorturl=${encodeURIComponent(alias)}`);
-          const data = await res.json();
-          if (data && data.shorturl) {
-            return data.shorturl;
-          }
-        } catch (e1) {
-          console.warn("Custom alias error, trying standard shortener");
+        const target = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}&alias=${encodeURIComponent(alias)}`;
+        const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(target)}`);
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.startsWith('http')) return text.trim();
         }
-
-        // 2. تجربة رابط مباشر بدون alias لو الاسم محجوز
-        const res2 = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`);
-        const data2 = await res2.json();
-        if (data2 && data2.shorturl) {
-          return data2.shorturl;
-        }
-
-        // 3. خيار بديل عبر TinyURL عبر corsproxy المباشر
-        const res3 = await fetch(`https://corsproxy.io/?url=${encodeURIComponent('https://tinyurl.com/api-create.php?url=' + encodeURIComponent(longUrl))}`);
-        if (res3.ok) {
-          const shortUrl = await res3.text();
-          if (shortUrl && shortUrl.startsWith('http')) return shortUrl.trim();
-        }
-
-        return longUrl;
       } catch (e) {
-        console.warn("Shortener failed, fallback to original URL", e);
-        return longUrl;
+        console.log('TinyURL proxy bypass...', e);
       }
+
+      // 2. استخدام بديل سريع ومباشر عبر is.gd
+      try {
+        const target = `https://is.gd/create.php?format=simple&url=${encodeURIComponent(longUrl)}`;
+        const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(target)}`);
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.startsWith('http')) return text.trim();
+        }
+      } catch (e) {
+        console.log('is.gd bypass...', e);
+      }
+
+      return longUrl;
     }
 
     async function exportAndOpen() {

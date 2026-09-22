@@ -248,9 +248,7 @@
             <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
           </div>
           
-          <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-[11px] font-medium text-stone-700">
-            <!-- Days rendered via JavaScript with Heart on Wedding Date -->
-          </div>
+          <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-[11px] font-medium text-stone-700"></div>
         </div>
 
         <!-- Button: Add To Calendar -->
@@ -274,9 +272,7 @@
       <!-- Slide 4: Timeline (Dynamic & Customizable) -->
       <section id="timelineSection" class="slide-item px-6 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Wedding Timeline</p>
-        <div id="timelineContainer" class="w-full max-w-[320px] space-y-2.5">
-          <!-- Rendered dynamically from generator or default list -->
-        </div>
+        <div id="timelineContainer" class="w-full max-w-[320px] space-y-2.5"></div>
       </section>
 
       <!-- Slide 5: Live Guest Book -->
@@ -287,15 +283,12 @@
         <div class="w-full max-w-[320px] bg-white/90 p-4 rounded-3xl border border-stone-200 shadow-md space-y-3">
           <input type="text" id="guestNameInput" placeholder="اسمك الكريم" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 text-right">
           <textarea id="guestMsgInput" rows="2" placeholder="اكتب مباركتك للعروسين..." class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 resize-none text-right"></textarea>
-          <button onclick="submitGuestWish()" class="w-full bg-stone-900 hover:bg-stone-800 text-amber-200 font-bold py-2 rounded-xl text-xs shadow-md transition">
+          <button id="sendWishBtn" onclick="submitGuestWish()" class="w-full bg-stone-900 hover:bg-stone-800 text-amber-200 font-bold py-2.5 rounded-xl text-xs shadow-md transition disabled:opacity-50">
             إرسال التهنئة ✨
           </button>
         </div>
 
-        <!-- Real Guest Wishes List (NO Fake Placeholders) -->
-        <div id="wishesList" class="w-full max-w-[320px] max-h-44 overflow-y-auto space-y-2 pr-1">
-          <!-- Only real wishes will be inserted here -->
-        </div>
+        <div id="wishesList" class="w-full max-w-[320px] max-h-44 overflow-y-auto space-y-2 pr-1"></div>
       </section>
 
       <!-- Slide 6: Venue & Map -->
@@ -329,6 +322,9 @@
     let brideGlobal = 'Bride';
     let hallGlobal = 'Dusit Thani';
     let timeStartGlobal = '17:00';
+
+    // الرابط البرمجي الخاص بـ Google Apps Script للحفظ في الإكسيل
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzPN2OW4lePsK2rxwyqFf9Y1B8rsccr9orUTtHkRH9uXyHKZHSXSz8FcaFZTXH5Mte/exec';
 
     function applySelectedFont(fontFamilyClass) {
       const targets = [
@@ -464,9 +460,10 @@
       window.open(calUrl, '_blank');
     }
 
-    function submitGuestWish() {
+    async function submitGuestWish() {
       const nameInput = document.getElementById('guestNameInput');
       const msgInput = document.getElementById('guestMsgInput');
+      const sendBtn = document.getElementById('sendWishBtn');
       const name = nameInput.value.trim();
       const msg = msgInput.value.trim();
 
@@ -475,18 +472,49 @@
         return;
       }
 
-      const list = document.getElementById('wishesList');
-      const wishCard = document.createElement('div');
-      wishCard.className = 'bg-amber-50/90 p-2.5 rounded-xl border border-amber-200/60 text-right text-xs shadow-sm';
-      wishCard.innerHTML = `
-        <span class="font-bold text-amber-950 block">${name}</span>
-        <p class="text-[11px] text-stone-600 mt-0.5">${msg}</p>
-      `;
-      list.prepend(wishCard);
+      if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.innerText = 'جاري الإرسال... ⏳';
+      }
 
-      nameInput.value = '';
-      msgInput.value = '';
-      alert('تم تسجيل تهنئتك بنجاح شكراً لك! 🤍');
+      try {
+        // إرسال التهنئة إلى شيت الإكسيل مباشرة
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            message: msg,
+            wedding: `${groomGlobal} & ${brideGlobal}`
+          })
+        });
+
+        // إظهار البطاقة محلياً أمام المعزوم في نفس اللحظة
+        const list = document.getElementById('wishesList');
+        const wishCard = document.createElement('div');
+        wishCard.className = 'bg-amber-50/90 p-2.5 rounded-xl border border-amber-200/60 text-right text-xs shadow-sm';
+        wishCard.innerHTML = `
+          <span class="font-bold text-amber-950 block">${name}</span>
+          <p class="text-[11px] text-stone-600 mt-0.5">${msg}</p>
+        `;
+        list.prepend(wishCard);
+
+        nameInput.value = '';
+        msgInput.value = '';
+        alert('شكراً لك! تم تسجيل تهنئتك الملكية بنجاح 🤍💍');
+
+      } catch (err) {
+        console.error('Error submitting wish:', err);
+        alert('حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى.');
+      } finally {
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.innerText = 'إرسال التهنئة ✨';
+        }
+      }
     }
 
     async function loadSavedData() {
@@ -642,4 +670,4 @@
 
 
 
-
+Hwa da aked invite

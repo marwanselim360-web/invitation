@@ -7,11 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cairo:wght@400;600;700&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cairo:wght@400;600;700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:wght@600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Cairo', sans-serif; background-color: #090d16; color: #f3f4f6; }
     .font-script { font-family: 'Alex Brush', cursive; }
     .font-luxury { font-family: 'Cormorant Garamond', serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-vibes { font-family: 'Great Vibes', cursive; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
   </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
@@ -63,37 +66,52 @@
 
       <!-- Wedding Timeline Option -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between pb-2 border-b border-stone-800">
           <div>
             <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
               <span>⏳</span> جدول فقرات الحفل (Wedding Timeline)
             </h2>
-            <p class="text-xs text-stone-400 mt-1">عرض مواعيد الاستقبال، الزفة، العشاء، والرقصة الأولى</p>
+            <p class="text-xs text-stone-400 mt-1">تعديل مواعيد وفقرات الحفل وإضافة فقرات جديدة</p>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="timelineToggle" checked class="sr-only peer">
             <div class="w-11 h-6 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
           </label>
         </div>
+
+        <div id="timelineItemsWrapper" class="space-y-2.5"></div>
+
+        <button type="button" onclick="addTimelineRow()" class="bg-stone-800 hover:bg-stone-700 text-amber-300 text-xs font-bold px-4 py-2 rounded-xl border border-amber-400/20 transition flex items-center gap-1.5">
+          <span>➕</span> إضافة فقرة جديدة
+        </button>
       </section>
 
-      <!-- Colors -->
+      <!-- Colors & Fonts -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
           <span>🎨</span> الألوان ونوع الخط
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">نوع الخط الأساسي (Font Style)</label>
+            <select id="fontSelect" onchange="changeFontFamily(this.value)" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-3 py-2.5 text-xs text-amber-200 outline-none focus:border-amber-400">
+              <option value="font-playfair">Playfair Display (فخم وواضح)</option>
+              <option value="font-vibes">Great Vibes (مائل ورومانسي)</option>
+              <option value="font-script">Alex Brush (كلاسيكي)</option>
+              <option value="font-cinzel">Cinzel (ملكي إنجليزي)</option>
+            </select>
+          </div>
           <div>
             <label class="block text-xs text-stone-400 mb-2">لون الخط الأساسي (Primary Color)</label>
             <div class="flex items-center gap-3 bg-stone-950/80 border border-stone-800 p-2 rounded-xl">
-              <input type="color" id="primaryColorInput" value="#78350f" class="w-9 h-9 rounded-lg bg-transparent border-0 cursor-pointer">
+              <input type="color" id="primaryColorInput" value="#78350f" class="w-8 h-8 rounded-lg bg-transparent border-0 cursor-pointer">
               <span id="colorHexText" class="text-xs font-mono text-stone-300">#78350f</span>
             </div>
           </div>
           <div>
             <label class="block text-xs text-stone-400 mb-2">لون خلفية الكارت (Card Background)</label>
             <div class="flex items-center gap-3 bg-stone-950/80 border border-stone-800 p-2 rounded-xl">
-              <input type="color" id="bgColorInput" value="#fcf9f5" class="w-9 h-9 rounded-lg bg-transparent border-0 cursor-pointer">
+              <input type="color" id="bgColorInput" value="#fcf9f5" class="w-8 h-8 rounded-lg bg-transparent border-0 cursor-pointer">
               <span id="bgHexText" class="text-xs font-mono text-stone-300">#fcf9f5</span>
             </div>
           </div>
@@ -135,8 +153,8 @@
             <input type="date" id="dateInput" value="2026-10-18" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
           </div>
           <div>
-            <label class="block text-xs text-stone-400 mb-2">ميعاد الحفل (يبدأ من)</label>
-            <input type="text" id="timeInput" value="17:00" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+            <label class="block text-xs text-stone-400 mb-2">ميعاد بدء الحفل</label>
+            <input type="time" id="timeInput" value="17:00" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
           </div>
           <div>
             <label class="block text-xs text-stone-400 mb-2">مكان القاعة / الفندق</label>
@@ -186,9 +204,9 @@
           
           <div class="pt-4 space-y-1">
             <p class="text-[8px] uppercase tracking-[0.25em] text-amber-800 font-bold">TOGETHER WITH THEIR FAMILIES</p>
-            <h3 id="prevGroom" class="font-script text-4xl text-amber-950 leading-tight">Marwan</h3>
+            <h3 id="prevGroom" class="font-playfair font-bold text-3xl text-amber-950 leading-tight">Marwan</h3>
             <p class="font-luxury italic text-sm text-stone-400">&</p>
-            <h3 id="prevBride" class="font-script text-4xl text-amber-950 leading-tight">Mariam</h3>
+            <h3 id="prevBride" class="font-playfair font-bold text-3xl text-amber-950 leading-tight">Mariam</h3>
           </div>
 
           <div class="my-2 space-y-2">
@@ -198,7 +216,7 @@
                   <img id="prevGroomThumb" class="w-full h-full object-cover hidden">
                   <span id="prevGroomEmpty" class="text-[9px] text-stone-400">صورة العريس</span>
                 </div>
-                <p class="font-script text-lg text-amber-950 mt-1 font-bold">Groom</p>
+                <p id="prevGroomLabel" class="font-playfair font-bold text-sm text-amber-950 mt-1">Groom</p>
               </div>
 
               <div class="bg-white/90 p-1.5 rounded-2xl border border-stone-200/80 shadow-md">
@@ -206,7 +224,7 @@
                   <img id="prevBrideThumb" class="w-full h-full object-cover hidden">
                   <span id="prevBrideEmpty" class="text-[9px] text-stone-400">صورة العروسة</span>
                 </div>
-                <p class="font-script text-lg text-amber-950 mt-1 font-bold">Bride</p>
+                <p id="prevBrideLabel" class="font-playfair font-bold text-sm text-amber-950 mt-1">Bride</p>
               </div>
             </div>
 
@@ -238,10 +256,6 @@
         <button id="copyBtn" onclick="copyLinkToClipboard()" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs transition">نسخ 📋</button>
       </div>
 
-      <button id="customTinyBtn" onclick="openTinyUrlHelper()" class="w-full bg-stone-800 hover:bg-stone-700 border border-amber-400/30 text-amber-200 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition">
-        <span>✨</span> تخصيص رابط مخصص باسم العروسين (TinyURL)
-      </button>
-
       <div class="flex gap-3 pt-2">
         <button onclick="window.open(document.getElementById('finalResultInput').value, '_blank')" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-lg transition">فتح الدعوة الآن ↗</button>
         <button onclick="document.getElementById('linkModal').classList.add('hidden')" class="bg-stone-800 hover:bg-stone-700 text-stone-300 font-bold px-5 py-2.5 rounded-xl text-xs transition">إغلاق</button>
@@ -257,10 +271,63 @@
     let brideImgData = '';
     let audioData = '';
     let isAudioPlaying = false;
-    let globalOriginalLongUrl = '';
-    let globalGroomName = '';
-    let globalBrideName = '';
+    let selectedFontClass = 'font-playfair';
     const audioEl = document.getElementById('audioPreviewPlayer');
+
+    let timelineList = [
+      { icon: '🍸', title: 'Welcome Guests', desc: 'استقبال المعازيم', time: '5:00 PM' },
+      { icon: '💍', title: 'Zaffa & Entry', desc: 'كتب الكتاب ودخول القاعة', time: '6:30 PM' },
+      { icon: '🍽️', title: 'Dinner Buffet', desc: 'العشاء والبوفيه المفتوح', time: '8:00 PM' },
+      { icon: '💃', title: 'First Dance & Party', desc: 'الرقصة الأولى والاحتفال', time: '9:30 PM' }
+    ];
+
+    function renderTimelineRows() {
+      const wrapper = document.getElementById('timelineItemsWrapper');
+      wrapper.innerHTML = '';
+      timelineList.forEach((item, index) => {
+        wrapper.innerHTML += `
+          <div class="flex items-center gap-2 bg-stone-950/70 border border-stone-800 p-2.5 rounded-2xl">
+            <input type="text" value="${item.icon}" onchange="updateTimelineItem(${index}, 'icon', this.value)" class="w-10 text-center bg-stone-900 border border-stone-700 rounded-lg py-1.5 text-sm">
+            <input type="text" value="${item.title}" onchange="updateTimelineItem(${index}, 'title', this.value)" placeholder="اسم الفقرة" class="flex-1 bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-white">
+            <input type="text" value="${item.time}" onchange="updateTimelineItem(${index}, 'time', this.value)" placeholder="الميعاد" class="w-24 text-center bg-stone-900 border border-stone-700 rounded-lg py-1.5 text-xs text-amber-300 font-mono">
+            <button type="button" onclick="removeTimelineItem(${index})" class="text-rose-400 hover:text-rose-300 px-2 text-sm font-bold">✕</button>
+          </div>
+        `;
+      });
+    }
+
+    function updateTimelineItem(index, field, value) {
+      timelineList[index][field] = value;
+    }
+
+    function addTimelineRow() {
+      timelineList.push({ icon: '✨', title: 'فقرة جديدة', desc: '', time: '10:00 PM' });
+      renderTimelineRows();
+    }
+
+    function removeTimelineItem(index) {
+      if (timelineList.length > 1) {
+        timelineList.splice(index, 1);
+        renderTimelineRows();
+      }
+    }
+
+    function changeFontFamily(val) {
+      selectedFontClass = val;
+      const targets = [
+        document.getElementById('prevGroom'),
+        document.getElementById('prevBride'),
+        document.getElementById('prevGroomLabel'),
+        document.getElementById('prevBrideLabel')
+      ];
+      const fonts = ['font-script', 'font-luxury', 'font-playfair', 'font-vibes', 'font-cinzel'];
+      targets.forEach(el => {
+        if (el) {
+          fonts.forEach(f => el.classList.remove(f));
+          el.classList.add(val);
+        }
+      });
+    }
 
     function selectStyle(style) {
       selectedOpeningStyle = style;
@@ -272,13 +339,11 @@
       if (style === 'doors') {
         doorsOpt.className = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
         doorsInd.className = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20";
-        
         envOpt.className = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
         envInd.className = "w-4 h-4 rounded-full border border-stone-600";
       } else {
         envOpt.className = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
         envInd.className = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20";
-        
         doorsOpt.className = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
         doorsInd.className = "w-4 h-4 rounded-full border border-stone-600";
       }
@@ -320,7 +385,6 @@
           thumb.src = groomImgData;
           thumb.classList.remove('hidden');
           document.getElementById('prevGroomEmpty')?.classList.add('hidden');
-          
           const prev = document.getElementById('groomPreview');
           if (prev) {
             prev.src = groomImgData;
@@ -342,7 +406,6 @@
           thumb.src = brideImgData;
           thumb.classList.remove('hidden');
           document.getElementById('prevBrideEmpty')?.classList.add('hidden');
-
           const prev = document.getElementById('bridePreview');
           if (prev) {
             prev.src = brideImgData;
@@ -387,12 +450,10 @@
           const canvas = document.createElement('canvas');
           let width = img.width;
           let height = img.height;
-
           if (width > maxWidth) {
             height = Math.round((height * maxWidth) / width);
             width = maxWidth;
           }
-
           canvas.width = width;
           canvas.height = height;
           const ctx = canvas.getContext('2d');
@@ -422,7 +483,6 @@
       }
     }
 
-    // دالة اختصار الرابط عبر استدعاء الباك إند المحلي مباشرة بدون قيود CORS
     async function shortenUrl(longUrl, groom, bride) {
       try {
         const res = await fetch('http://127.0.0.1:5000/shorten', {
@@ -450,14 +510,6 @@
       setTimeout(() => copyBtn.innerText = 'نسخ 📋', 2000);
     }
 
-    function openTinyUrlHelper() {
-      const cleanGroom = (globalGroomName || 'Groom').trim().replace(/[^a-zA-Z0-9]/g, '');
-      const cleanBride = (globalBrideName || 'Bride').trim().replace(/[^a-zA-Z0-9]/g, '');
-      const alias = `${cleanGroom}-${cleanBride}-wedding`;
-      const tinyUrlHelper = `https://tinyurl.com/app?url=${encodeURIComponent(globalOriginalLongUrl)}&alias=${encodeURIComponent(alias)}`;
-      window.open(tinyUrlHelper, '_blank');
-    }
-
     async function exportAndOpen() {
       const btn = document.getElementById('exportBtn');
       const btnText = document.getElementById('exportBtnText');
@@ -477,19 +529,12 @@
       const bgVal = document.getElementById('bgColorInput').value || '#fcf9f5';
       const timelineEnabled = document.getElementById('timelineToggle').checked;
 
-      globalGroomName = groomVal;
-      globalBrideName = brideVal;
-
       try {
         let groomOnlineUrl = '';
         let brideOnlineUrl = '';
 
-        if (groomImgData) {
-          groomOnlineUrl = await uploadToImgBB(groomImgData);
-        }
-        if (brideImgData) {
-          brideOnlineUrl = await uploadToImgBB(brideImgData);
-        }
+        if (groomImgData) groomOnlineUrl = await uploadToImgBB(groomImgData);
+        if (brideImgData) brideOnlineUrl = await uploadToImgBB(brideImgData);
 
         const params = new URLSearchParams({
           groom: groomVal,
@@ -500,7 +545,9 @@
           maps: mapsVal,
           color: colorVal,
           style: selectedOpeningStyle,
-          timeline: timelineEnabled ? 'true' : 'false'
+          timeline: timelineEnabled ? 'true' : 'false',
+          font: selectedFontClass,
+          timelineList: JSON.stringify(timelineList)
         });
 
         if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
@@ -508,22 +555,28 @@
         
         const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
         const longUrl = `${baseUrl}?${params.toString()}`;
-        globalOriginalLongUrl = longUrl;
         
-        btnText.innerText = 'جاري اختصار الرابط عبر السيرفر...';
+        btnText.innerText = 'جاري توليد الرابط باسم العروسين...';
         const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
         
         document.getElementById('finalResultInput').value = finalShortUrl;
         document.getElementById('linkModal').classList.remove('hidden');
       } catch (err) {
         console.error("Export error:", err);
-        alert('حدث خطأ أثناء تجهيز الرابط: ' + err.message);
+        alert('حدث خطأ أثناء معالجة البيانات: ' + err.message);
       } finally {
         btn.disabled = false;
         btnText.innerText = 'تصدير وتوليد الدعوة';
         btnIcon.innerText = '🚀';
       }
     }
+
+    window.onload = function() {
+      renderTimelineRows();
+    };
   </script>
 </body>
 </html>
+
+
+

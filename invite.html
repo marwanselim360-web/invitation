@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Wedding Invitation</title>
 
-  <!-- إعدادات معاينة الرابط على واتساب ومنصات التواصل -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Wedding Invitation | دعوة زفاف ملكية">
   <meta property="og:description" content="We invite you to celebrate our special day with us. Click to view invitation & details! 💍✨">
@@ -15,13 +14,24 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Montserrat', 'Cairo', sans-serif; background: #0c0a09; margin: 0; padding: 0; }
+    
     .font-script { font-family: 'Alex Brush', cursive; }
     .font-luxury { font-family: 'Cormorant Garamond', serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-vibes { font-family: 'Great Vibes', cursive; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+
+    .glow-text {
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 2px 8px rgba(255,255,255,0.4);
+    }
+    .door-glow-text {
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.4);
+    }
 
     .slides-wrapper {
       height: 100dvh;
@@ -44,7 +54,6 @@
       padding-bottom: 2rem;
     }
 
-    /* أنيميشن الباب الذهبي */
     .door-perspective { perspective: 1200px; }
     .door-left { transform-origin: left; transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1); }
     .door-right { transform-origin: right; transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1); }
@@ -52,7 +61,6 @@
     .doors-open .door-right { transform: rotateY(110deg); }
     .doors-open .door-overlay { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
 
-    /* أنيميشن الظرف بختم الشمع الملكي */
     .envelope-flap {
       transform-origin: top;
       transition: transform 1.1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -110,7 +118,7 @@
       <span class="bar h-2"></span>
     </button>
 
-    <!-- 1. شاشة الباب الذهبي -->
+    <!-- 1. Grand Doors Screen -->
     <div id="doorScreen" class="door-perspective absolute inset-0 z-50 flex items-center justify-center bg-stone-950 transition-opacity duration-700">
       <div id="doorL" class="door-left absolute left-0 top-0 w-1/2 h-full bg-gradient-to-r from-amber-900 via-amber-700 to-yellow-600 border-r-2 border-yellow-300/70 shadow-2xl flex items-center justify-end pr-2">
         <div class="w-5 h-28 border-2 border-amber-950/50 rounded-full bg-gradient-to-b from-amber-200 to-yellow-500 shadow-lg"></div>
@@ -122,29 +130,26 @@
       <div class="door-overlay absolute z-20 flex flex-col items-center space-y-4 cursor-pointer text-center px-4" onclick="openGrandDoors()">
         <div class="w-16 h-16 rounded-full bg-stone-900/95 border-2 border-amber-300 text-amber-300 flex items-center justify-center text-2xl shadow-2xl animate-pulse">❤</div>
         <div class="space-y-1">
-          <p id="doorCoupleNames" class="text-amber-200 font-script text-3xl">Wedding Invitation</p>
+          <p id="doorCoupleNames" class="text-amber-200 font-script text-3xl font-bold door-glow-text">Wedding Invitation</p>
           <span class="inline-block bg-amber-400 text-stone-950 font-bold px-6 py-2 rounded-full text-[11px] tracking-widest uppercase shadow-xl hover:bg-amber-300 transition">Open Invitation ✉️</span>
         </div>
       </div>
     </div>
 
-    <!-- 2. شاشة الظرف الملكي بختم الشمع (Wax Seal Envelope) -->
+    <!-- 2. Wax-Sealed Envelope Screen -->
     <div id="envelopeScreen" class="hidden absolute inset-0 z-50 bg-[#161311] flex items-center justify-center p-4 transition-opacity duration-700">
       <div id="envelopeBox" class="relative w-full max-w-[340px] aspect-[4/5] bg-[#ece3d4] rounded-2xl shadow-2xl border border-amber-200/40 flex flex-col items-center justify-between p-6 overflow-hidden">
         
-        <!-- لسان الظرف العلوي -->
         <div id="envelopeFlap" class="envelope-flap absolute top-0 left-0 w-full h-[45%] bg-[#dfd4c0] border-b-2 border-amber-700/20 shadow-md origin-top z-20 flex items-end justify-center pb-2"></div>
 
-        <!-- الكارت الداخلي المسحوب -->
         <div id="envelopePaper" class="envelope-paper relative z-10 w-[90%] bg-white rounded-xl shadow-lg border border-stone-200 p-5 text-center space-y-2 mt-4">
           <p class="text-[8px] uppercase tracking-[0.25em] text-amber-800 font-bold">Royal Invitation</p>
-          <h2 id="envGroomBride" class="font-script text-3xl text-amber-950">Groom & Bride</h2>
+          <h2 id="envGroomBride" class="font-script text-3xl text-amber-950 font-bold glow-text">Groom & Bride</h2>
           <p class="font-luxury italic text-xs text-stone-500">Are Getting Married</p>
         </div>
 
-        <!-- ختم الشمع الملكي بالحروف (Monogram Seal) -->
         <div onclick="openRoyalEnvelope()" class="wax-seal relative z-30 w-20 h-20 rounded-full bg-gradient-to-tr from-amber-800 via-amber-600 to-yellow-500 border-4 border-amber-300/80 flex flex-col items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95 shadow-2xl transition">
-          <span id="monogramLetters" class="font-luxury font-bold text-amber-100 text-xl tracking-wider drop-shadow-md">M & M</span>
+          <span id="monogramLetters" class="font-luxury font-bold text-amber-100 text-xl tracking-wider drop-shadow-md">M & S</span>
           <span class="text-[7px] text-amber-200 uppercase tracking-widest mt-[-2px]">Seal</span>
         </div>
 
@@ -159,9 +164,9 @@
       <section class="slide-item px-6 text-center space-y-6">
         <p class="text-[10px] tracking-[0.3em] uppercase text-amber-800 font-bold">Together With Their Families</p>
         <div class="space-y-2 py-4">
-          <h1 id="groomDisplay" class="font-script text-6xl text-amber-950">Groom</h1>
+          <h1 id="groomDisplay" class="font-script text-6xl text-amber-950 font-bold glow-text">Groom</h1>
           <p class="font-luxury italic text-2xl text-stone-400">&</p>
-          <h1 id="brideDisplay" class="font-script text-6xl text-amber-950">Bride</h1>
+          <h1 id="brideDisplay" class="font-script text-6xl text-amber-950 font-bold glow-text">Bride</h1>
         </div>
         <p id="dateDisplay" class="font-mono text-xs tracking-widest text-stone-500 uppercase">Date</p>
         <div class="pt-8 text-stone-400 flex flex-col items-center gap-1 animate-bounce">
@@ -181,7 +186,7 @@
               <img id="groomImgDisplay" src="groom.jpg" class="w-full h-full object-cover">
             </div>
             <div class="py-2 text-center">
-              <p id="groomCardName" class="font-script text-3xl text-amber-950 font-bold leading-tight">Groom</p>
+              <p id="groomCardName" class="font-script text-3xl text-amber-950 font-bold leading-tight glow-text">Groom</p>
               <span class="text-[9px] uppercase tracking-widest text-stone-400 block mt-0.5">The Groom</span>
             </div>
           </div>
@@ -192,7 +197,7 @@
               <img id="brideImgDisplay" src="bride.jpg" class="w-full h-full object-cover">
             </div>
             <div class="py-2 text-center">
-              <p id="brideCardName" class="font-script text-3xl text-amber-950 font-bold leading-tight">Bride</p>
+              <p id="brideCardName" class="font-script text-3xl text-amber-950 font-bold leading-tight glow-text">Bride</p>
               <span class="text-[9px] uppercase tracking-widest text-stone-400 block mt-0.5">The Bride</span>
             </div>
           </div>
@@ -204,92 +209,73 @@
       </section>
 
       <!-- Slide 3: Countdown & Calendar -->
-      <section class="slide-item px-6 text-center space-y-5">
+      <section class="slide-item px-5 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Save The Date</p>
+        
+        <!-- Live Countdown -->
+        <div class="space-y-1">
+          <p class="text-[10px] font-mono tracking-widest text-amber-900 font-bold uppercase">COUNTDOWN</p>
+          <p id="countdownSentence" class="font-luxury italic text-sm text-stone-700">0 days 0 hours 0 min 0 sec</p>
+        </div>
+
         <div class="grid grid-cols-4 gap-2 w-full max-w-[320px]">
-          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
-            <span id="cdDays" class="block font-mono text-xl font-bold text-amber-950">00</span>
-            <span class="text-[9px] uppercase tracking-wider text-stone-400">Days</span>
+          <div class="bg-white/90 p-2 rounded-2xl border border-stone-200 shadow-sm">
+            <span id="cdDays" class="block font-mono text-lg font-bold text-amber-950">00</span>
+            <span class="text-[8px] uppercase tracking-wider text-stone-400">Days</span>
           </div>
-          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
-            <span id="cdHours" class="block font-mono text-xl font-bold text-amber-950">00</span>
-            <span class="text-[9px] uppercase tracking-wider text-stone-400">Hours</span>
+          <div class="bg-white/90 p-2 rounded-2xl border border-stone-200 shadow-sm">
+            <span id="cdHours" class="block font-mono text-lg font-bold text-amber-950">00</span>
+            <span class="text-[8px] uppercase tracking-wider text-stone-400">Hours</span>
           </div>
-          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
-            <span id="cdMins" class="block font-mono text-xl font-bold text-amber-950">00</span>
-            <span class="text-[9px] uppercase tracking-wider text-stone-400">Mins</span>
+          <div class="bg-white/90 p-2 rounded-2xl border border-stone-200 shadow-sm">
+            <span id="cdMins" class="block font-mono text-lg font-bold text-amber-950">00</span>
+            <span class="text-[8px] uppercase tracking-wider text-stone-400">Mins</span>
           </div>
-          <div class="bg-white/90 p-2.5 rounded-2xl border border-stone-200 shadow-md">
-            <span id="cdSecs" class="block font-mono text-xl font-bold text-amber-950">00</span>
-            <span class="text-[9px] uppercase tracking-wider text-stone-400">Secs</span>
+          <div class="bg-white/90 p-2 rounded-2xl border border-stone-200 shadow-sm">
+            <span id="cdSecs" class="block font-mono text-lg font-bold text-amber-950">00</span>
+            <span class="text-[8px] uppercase tracking-wider text-stone-400">Secs</span>
           </div>
         </div>
 
-        <!-- زرار Add To Calendar -->
-        <button onclick="addToCalendar()" class="w-full max-w-[320px] bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 py-3 rounded-2xl flex items-center justify-center gap-2 text-xs font-semibold shadow-sm transition">
-          <span>📅</span> إضافة المناسبة إلى تقويم الهاتف (Add to Calendar)
+        <!-- Royal Month Calendar Box with Heart Mark -->
+        <div class="w-full max-w-[320px] bg-white/90 rounded-2xl border-2 border-amber-200/80 p-3 shadow-md">
+          <div class="flex justify-between items-center pb-2 border-b border-stone-100 text-xs font-bold text-amber-950">
+            <span id="calMonthYear">Month Year</span>
+            <span class="text-amber-600">🌙 💍</span>
+          </div>
+          
+          <div class="grid grid-cols-7 gap-1 text-[9px] font-bold text-stone-400 py-1.5 uppercase">
+            <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+          </div>
+          
+          <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-[11px] font-medium text-stone-700">
+            <!-- Days rendered via JavaScript with Heart on Wedding Date -->
+          </div>
+        </div>
+
+        <!-- Button: Add To Calendar -->
+        <button onclick="addToCalendar()" class="w-full max-w-[320px] bg-gradient-to-r from-amber-900 to-amber-700 text-amber-100 py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold shadow-md hover:scale-[1.02] transition">
+          <span>📅</span> Add to Calendar
         </button>
 
-        <div class="bg-white/80 p-4 rounded-2xl border border-stone-200 shadow-sm w-full max-w-[320px] flex justify-around items-center font-luxury">
+        <div class="bg-white/80 p-2.5 rounded-xl border border-stone-200 shadow-sm w-full max-w-[320px] flex justify-around items-center font-luxury">
           <div>
-            <span id="timeStart" class="text-xl font-bold text-stone-800">5:00 PM</span>
-            <span class="block text-[10px] uppercase text-stone-400">Starts</span>
+            <span id="timeStart" class="text-lg font-bold text-stone-800">5:00 PM</span>
+            <span class="block text-[9px] uppercase text-stone-400">Starts</span>
           </div>
-          <span class="w-8 h-0.5 bg-amber-900/20"></span>
+          <span class="w-6 h-0.5 bg-amber-900/20"></span>
           <div>
-            <span class="text-xl font-bold text-stone-800">11:00 PM</span>
-            <span class="block text-[10px] uppercase text-stone-400">Ends</span>
+            <span id="timeEnd" class="text-lg font-bold text-stone-800">11:00 PM</span>
+            <span class="block text-[9px] uppercase text-stone-400">Ends</span>
           </div>
         </div>
       </section>
 
-      <!-- Slide 4: Timeline (اختياري) -->
+      <!-- Slide 4: Timeline (Dynamic & Customizable) -->
       <section id="timelineSection" class="slide-item px-6 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Wedding Timeline</p>
-        <div class="w-full max-w-[320px] space-y-3">
-          <div class="bg-white/90 p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-xl">🍸</span>
-              <div class="text-left">
-                <p class="text-xs font-bold text-stone-800">Welcome Guests</p>
-                <p class="text-[10px] text-stone-400">استقبال المعازيم</p>
-              </div>
-            </div>
-            <span class="text-xs font-mono font-bold text-amber-800">7:00 PM</span>
-          </div>
-
-          <div class="bg-white/90 p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-xl">💍</span>
-              <div class="text-left">
-                <p class="text-xs font-bold text-stone-800">Zaffa & Entry</p>
-                <p class="text-[10px] text-stone-400">كتب الكتاب ودخول القاعة</p>
-              </div>
-            </div>
-            <span class="text-xs font-mono font-bold text-amber-800">8:00 PM</span>
-          </div>
-
-          <div class="bg-white/90 p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-xl">🍽️</span>
-              <div class="text-left">
-                <p class="text-xs font-bold text-stone-800">Dinner Buffet</p>
-                <p class="text-[10px] text-stone-400">العشاء والبوفيه المفتوح</p>
-              </div>
-            </div>
-            <span class="text-xs font-mono font-bold text-amber-800">9:30 PM</span>
-          </div>
-
-          <div class="bg-white/90 p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-xl">💃</span>
-              <div class="text-left">
-                <p class="text-xs font-bold text-stone-800">First Dance & Party</p>
-                <p class="text-[10px] text-stone-400">الرقصة الأولى والاحتفال</p>
-              </div>
-            </div>
-            <span class="text-xs font-mono font-bold text-amber-800">10:30 PM</span>
-          </div>
+        <div id="timelineContainer" class="w-full max-w-[320px] space-y-2.5">
+          <!-- Rendered dynamically from generator or default list -->
         </div>
       </section>
 
@@ -299,19 +285,16 @@
         <p class="text-xs text-stone-600">شارك العروسين تهنئتك وسجل كلمتك في دفتر الذكريات</p>
 
         <div class="w-full max-w-[320px] bg-white/90 p-4 rounded-3xl border border-stone-200 shadow-md space-y-3">
-          <input type="text" id="guestNameInput" placeholder="اسمك الكريم" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400">
-          <textarea id="guestMsgInput" rows="2" placeholder="اكتب مباركتك للعروسين..." class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 resize-none"></textarea>
+          <input type="text" id="guestNameInput" placeholder="اسمك الكريم" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 text-right">
+          <textarea id="guestMsgInput" rows="2" placeholder="اكتب مباركتك للعروسين..." class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 resize-none text-right"></textarea>
           <button onclick="submitGuestWish()" class="w-full bg-stone-900 hover:bg-stone-800 text-amber-200 font-bold py-2 rounded-xl text-xs shadow-md transition">
             إرسال التهنئة ✨
           </button>
         </div>
 
-        <!-- قائمة التهاني الحية -->
-        <div id="wishesList" class="w-full max-w-[320px] max-h-36 overflow-y-auto space-y-2 pr-1">
-          <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200/50 text-left text-xs">
-            <span class="font-bold text-amber-950 block">مروان ومريم 🤍</span>
-            <p class="text-[11px] text-stone-600">ألف مبروك وبالرفاء والبنين إن شاء الله 🎉</p>
-          </div>
+        <!-- Real Guest Wishes List (NO Fake Placeholders) -->
+        <div id="wishesList" class="w-full max-w-[320px] max-h-44 overflow-y-auto space-y-2 pr-1">
+          <!-- Only real wishes will be inserted here -->
         </div>
       </section>
 
@@ -345,13 +328,165 @@
     let groomGlobal = 'Groom';
     let brideGlobal = 'Bride';
     let hallGlobal = 'Dusit Thani';
+    let timeStartGlobal = '17:00';
 
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.open('WeddingDB', 1);
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+    function applySelectedFont(fontFamilyClass) {
+      const targets = [
+        document.getElementById('groomDisplay'),
+        document.getElementById('brideDisplay'),
+        document.getElementById('doorCoupleNames'),
+        document.getElementById('envGroomBride'),
+        document.getElementById('groomCardName'),
+        document.getElementById('brideCardName')
+      ];
+
+      const classesToRemove = ['font-script', 'font-playfair', 'font-vibes', 'font-cinzel', 'font-luxury'];
+      targets.forEach(el => {
+        if (el) {
+          classesToRemove.forEach(cls => el.classList.remove(cls));
+          el.classList.add(fontFamilyClass || 'font-script');
+        }
       });
+    }
+
+    function renderCalendar(dateString) {
+      const date = new Date(dateString);
+      if (isNaN(date)) return;
+
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const targetDay = date.getDate();
+
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      document.getElementById('calMonthYear').innerText = `${monthNames[month]} ${year}`;
+
+      const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7;
+      const totalDays = new Date(year, month + 1, 0).getDate();
+
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        grid.innerHTML += `<div></div>`;
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        if (day === targetDay) {
+          grid.innerHTML += `
+            <div class="flex items-center justify-center">
+              <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center shadow-md relative">
+                ${day}
+                <span class="absolute -top-1 -right-1 text-[8px]">💙</span>
+              </span>
+            </div>
+          `;
+        } else {
+          grid.innerHTML += `<div class="py-1 text-center">${day}</div>`;
+        }
+      }
+    }
+
+    function renderTimeline(timelineData) {
+      const container = document.getElementById('timelineContainer');
+      container.innerHTML = '';
+
+      let items = [];
+      if (typeof timelineData === 'string' && timelineData.length > 5) {
+        try {
+          items = JSON.parse(decodeURIComponent(timelineData));
+        } catch (e) {
+          items = [];
+        }
+      }
+
+      if (!items || items.length === 0) {
+        items = [
+          { icon: '🍸', title: 'Welcome Guests', desc: 'استقبال المعازيم', time: '5:00 PM' },
+          { icon: '💍', title: 'Zaffa & Entry', desc: 'كتب الكتاب ودخول القاعة', time: '6:30 PM' },
+          { icon: '🍽️', title: 'Dinner Buffet', desc: 'العشاء والبوفيه المفتوح', time: '8:00 PM' },
+          { icon: '💃', title: 'First Dance & Party', desc: 'الرقصة الأولى والاحتفال', time: '9:30 PM' }
+        ];
+      }
+
+      items.forEach(it => {
+        container.innerHTML += `
+          <div class="bg-white/90 p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-xl">${it.icon || '✨'}</span>
+              <div class="text-left">
+                <p class="text-xs font-bold text-stone-800">${it.title}</p>
+                <p class="text-[10px] text-stone-400">${it.desc || ''}</p>
+              </div>
+            </div>
+            <span class="text-xs font-mono font-bold text-amber-800">${it.time}</span>
+          </div>
+        `;
+      });
+    }
+
+    function startCountdown(dateStr, timeStr) {
+      const target = new Date(dateStr + ' ' + (timeStr || '17:00')).getTime();
+      if (isNaN(target)) return;
+      
+      setInterval(() => {
+        const diff = target - new Date().getTime();
+        if (diff <= 0) {
+          document.getElementById('countdownSentence').innerText = "Today is the big day! 🎉";
+          return;
+        }
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('cdDays').innerText = d < 10 ? '0' + d : d;
+        document.getElementById('cdHours').innerText = h < 10 ? '0' + h : h;
+        document.getElementById('cdMins').innerText = m < 10 ? '0' + m : m;
+        document.getElementById('cdSecs').innerText = s < 10 ? '0' + s : s;
+
+        document.getElementById('countdownSentence').innerText = `${d} days ${h} hours ${m} min ${s} sec`;
+      }, 1000);
+    }
+
+    function addToCalendar() {
+      const title = encodeURIComponent(`Wedding of ${groomGlobal} & ${brideGlobal} 💍`);
+      const details = encodeURIComponent(`We are thrilled to celebrate our wedding with you at ${hallGlobal}!`);
+      const location = encodeURIComponent(hallGlobal);
+      
+      const [year, month, day] = weddingDateGlobal.split('-');
+      const [hours, mins] = (timeStartGlobal || '17:00').split(':');
+
+      const start = `${year}${month}${day}T${hours.padStart(2, '0')}${mins.padStart(2, '0')}00Z`;
+      const endHour = (parseInt(hours) + 5) % 24;
+      const end = `${year}${month}${day}T${endHour.toString().padStart(2, '0')}${mins.padStart(2, '0')}00Z`;
+
+      const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${location}`;
+      window.open(calUrl, '_blank');
+    }
+
+    function submitGuestWish() {
+      const nameInput = document.getElementById('guestNameInput');
+      const msgInput = document.getElementById('guestMsgInput');
+      const name = nameInput.value.trim();
+      const msg = msgInput.value.trim();
+
+      if (!name || !msg) {
+        alert('يرجى كتابة الاسم والتهنئة 🤍');
+        return;
+      }
+
+      const list = document.getElementById('wishesList');
+      const wishCard = document.createElement('div');
+      wishCard.className = 'bg-amber-50/90 p-2.5 rounded-xl border border-amber-200/60 text-right text-xs shadow-sm';
+      wishCard.innerHTML = `
+        <span class="font-bold text-amber-950 block">${name}</span>
+        <p class="text-[11px] text-stone-600 mt-0.5">${msg}</p>
+      `;
+      list.prepend(wishCard);
+
+      nameInput.value = '';
+      msgInput.value = '';
+      alert('تم تسجيل تهنئتك بنجاح شكراً لك! 🤍');
     }
 
     async function loadSavedData() {
@@ -366,40 +501,41 @@
       const urlGroomImg = urlParams.get('groomImg');
       const urlBrideImg = urlParams.get('brideImg');
       const urlAudio = urlParams.get('audio');
-      const urlStyle = urlParams.get('style'); // 'doors' or 'envelope'
-      const urlTimeline = urlParams.get('timeline'); // 'true' or 'false'
+      const urlStyle = urlParams.get('style');
+      const urlTimeline = urlParams.get('timeline');
+      const urlFont = urlParams.get('font');
+      const urlTimelineList = urlParams.get('timelineList');
 
-      // إظهار أو إخفاء الجدول الزمني حسب الرغبة
       if (urlTimeline === 'false') {
         document.getElementById('timelineSection')?.remove();
+      } else {
+        renderTimeline(urlTimelineList);
       }
 
-      // تحديد نوع الافتتاحية (أبواب أم ظرف ملكي)
       if (urlStyle === 'envelope') {
         document.getElementById('doorScreen').style.display = 'none';
         document.getElementById('envelopeScreen').classList.remove('hidden');
       }
 
-      let hasUrlData = false;
+      if (urlFont) {
+        applySelectedFont(urlFont);
+      }
 
       if (urlGroom) {
         groomGlobal = urlGroom;
         document.getElementById('groomDisplay').innerText = urlGroom;
         document.getElementById('groomCardName').innerText = urlGroom;
-        hasUrlData = true;
       }
       if (urlBride) {
         brideGlobal = urlBride;
         document.getElementById('brideDisplay').innerText = urlBride;
         document.getElementById('brideCardName').innerText = urlBride;
-        hasUrlData = true;
       }
       if (urlGroom && urlBride) {
         document.getElementById('doorCoupleNames').innerText = urlGroom + ' & ' + urlBride;
         document.getElementById('envGroomBride').innerText = urlGroom + ' & ' + urlBride;
         document.title = `${urlGroom} & ${urlBride} | Wedding Invitation`;
 
-        // الحروف الأولى للختم الشمعي (Monogram)
         const gChar = urlGroom.trim().charAt(0).toUpperCase();
         const bChar = urlBride.trim().charAt(0).toUpperCase();
         document.getElementById('monogramLetters').innerText = `${gChar} & ${bChar}`;
@@ -408,10 +544,15 @@
       if (urlDate) {
         weddingDateGlobal = urlDate;
         document.getElementById('dateDisplay').innerText = urlDate;
+        renderCalendar(urlDate);
         startCountdown(urlDate, urlTime || '17:00');
-        hasUrlData = true;
+      } else {
+        renderCalendar('2026-10-18');
+        startCountdown('2026-10-18', '17:00');
       }
+
       if (urlTime) {
+        timeStartGlobal = urlTime;
         document.getElementById('timeStart').innerText = urlTime;
       }
       if (urlHall) {
@@ -426,78 +567,13 @@
         document.getElementById('brideDisplay').style.color = urlColor;
       }
 
-      if (urlGroomImg) {
-        document.getElementById('groomImgDisplay').src = urlGroomImg;
-      }
-      if (urlBrideImg) {
-        document.getElementById('brideImgDisplay').src = urlBrideImg;
-      }
+      if (urlGroomImg) document.getElementById('groomImgDisplay').src = urlGroomImg;
+      if (urlBrideImg) document.getElementById('brideImgDisplay').src = urlBrideImg;
 
       if (urlAudio) {
         audio.src = urlAudio;
       } else {
         audio.src = 'song.mp3';
-      }
-
-      try {
-        const db = await openDB();
-        const tx = db.transaction('data', 'readonly');
-        const req = tx.objectStore('data').get('inviteConfig');
-        
-        req.onsuccess = () => {
-          const data = req.result;
-          if (!data) return;
-
-          if (!hasUrlData) {
-            if (data.groom) {
-              document.getElementById('groomDisplay').innerText = data.groom;
-              document.getElementById('groomCardName').innerText = data.groom;
-            }
-            if (data.bride) {
-              document.getElementById('brideDisplay').innerText = data.bride;
-              document.getElementById('brideCardName').innerText = data.bride;
-            }
-            if (data.groom && data.bride) {
-              document.getElementById('doorCoupleNames').innerText = data.groom + ' & ' + data.bride;
-              document.getElementById('envGroomBride').innerText = data.groom + ' & ' + data.bride;
-              const gC = data.groom.trim().charAt(0).toUpperCase();
-              const bC = data.bride.trim().charAt(0).toUpperCase();
-              document.getElementById('monogramLetters').innerText = `${gC} & ${bC}`;
-            }
-            if (data.date) {
-              document.getElementById('dateDisplay').innerText = data.date;
-              startCountdown(data.date, data.timeStart || '17:00');
-            }
-            if (data.timeStart) {
-              document.getElementById('timeStart').innerText = data.timeStart;
-            }
-            if (data.hall) {
-              document.getElementById('hallDisplay').innerText = data.hall;
-            }
-            if (data.maps) {
-              document.getElementById('mapsLink').href = data.maps;
-            }
-            if (data.primaryColor) {
-              document.getElementById('groomDisplay').style.color = data.primaryColor;
-              document.getElementById('brideDisplay').style.color = data.primaryColor;
-            }
-          }
-
-          if (data.cardBg) {
-            document.getElementById('cardBg').style.backgroundColor = data.cardBg;
-          }
-          if (!urlGroomImg && data.groomImg) {
-            document.getElementById('groomImgDisplay').src = data.groomImg;
-          }
-          if (!urlBrideImg && data.brideImg) {
-            document.getElementById('brideImgDisplay').src = data.brideImg;
-          }
-          if (!urlAudio && data.audioData) {
-            audio.src = data.audioData;
-          }
-        };
-      } catch (err) {
-        console.log('Using default assets');
       }
     }
 
@@ -542,53 +618,6 @@
       isPlaying = !isPlaying;
     }
 
-    function startCountdown(dateStr, timeStr) {
-      const target = new Date(dateStr + ' ' + (timeStr || '17:00')).getTime();
-      if (isNaN(target)) return;
-      setInterval(() => {
-        const diff = target - new Date().getTime();
-        if (diff < 0) return;
-        document.getElementById('cdDays').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById('cdHours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById('cdMins').innerText = Math.floor((diff % (1000 * 60)) / (1000 * 60));
-        document.getElementById('cdSecs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
-      }, 1000);
-    }
-
-    function addToCalendar() {
-      const title = encodeURIComponent(`Wedding of ${groomGlobal} & ${brideGlobal} 💍`);
-      const details = encodeURIComponent(`We are thrilled to celebrate with you at ${hallGlobal}!`);
-      const location = encodeURIComponent(hallGlobal);
-      const cleanDate = weddingDateGlobal.replace(/-/g, '');
-      const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${cleanDate}T170000Z/${cleanDate}T230000Z&details=${details}&location=${location}`;
-      window.open(calUrl, '_blank');
-    }
-
-    function submitGuestWish() {
-      const nameInput = document.getElementById('guestNameInput');
-      const msgInput = document.getElementById('guestMsgInput');
-      const name = nameInput.value.trim();
-      const msg = msgInput.value.trim();
-
-      if (!name || !msg) {
-        alert('يرجى كتابة الاسم والتهنئة 🤍');
-        return;
-      }
-
-      const list = document.getElementById('wishesList');
-      const wishCard = document.createElement('div');
-      wishCard.className = 'bg-amber-50/70 p-2.5 rounded-xl border border-amber-200/50 text-left text-xs animate-fade-in';
-      wishCard.innerHTML = `
-        <span class="font-bold text-amber-950 block">${name}</span>
-        <p class="text-[11px] text-stone-600">${msg}</p>
-      `;
-      list.prepend(wishCard);
-
-      nameInput.value = '';
-      msgInput.value = '';
-      alert('تم تسجيل تهنئتك بنجاح شكراً لك! 🤍');
-    }
-
     function initPetals() {
       const box = document.getElementById('petalsContainer');
       for (let i = 0; i < 14; i++) {
@@ -610,3 +639,7 @@
   </script>
 </body>
 </html>
+
+
+
+

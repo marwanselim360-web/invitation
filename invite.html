@@ -1,5 +1,3 @@
-هو ده كود صح؟؟
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +31,7 @@
       padding: 0;
       background-color: #0c0a09;
       font-family: 'Montserrat', 'Cairo', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden !important;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -43,10 +41,10 @@
       width: 100%;
       max-width: 440px;
       height: 100dvh;
-      margin: 0 auto;
+      margin: 0 auto !important;
       position: relative;
       background: radial-gradient(circle at 50% 35%, #faf4ee 0%, #f4eae0 55%, #ecdccf 100%);
-      overflow: hidden;
+      overflow-x: hidden !important;
       display: flex;
       flex-direction: column;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
@@ -72,7 +70,13 @@
       scroll-snap-type: y mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    .slides-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
     .slide-item {
       width: 100%;
       min-height: 100dvh;
@@ -282,7 +286,7 @@
         </div>
       </section>
 
-      <!-- Slide 2: صور العروسين المنفصلة (للأبواب والظرف) -->
+      <!-- Slide 2: صور العروسين المنفصلة (للأبواب والظرف فقط) -->
       <section id="photosSection" class="slide-item px-3 text-center space-y-3 w-full">
         <p class="text-[11px] tracking-[0.25em] uppercase font-bold text-amber-800">The Groom & The Bride</p>
 
@@ -385,7 +389,7 @@
         </p>
       </section>
 
-      <!-- Slide 5: التقويم الشهري الكلاسيكي وزر الحفظ في التقويم (للأبواب والظرف) -->
+      <!-- Slide 5: التقويم الشهري الكلاسيكي (للأبواب والظرف فقط) -->
       <section id="calendarSection" class="slide-item px-5 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Save The Date</p>
         
@@ -425,34 +429,7 @@
         <div id="timelineContainer" class="w-full max-w-[320px] space-y-2.5"></div>
       </section>
 
-      <!-- Slide 7: مكان القاعة Location -->
-      <section class="slide-item px-6 text-center space-y-4">
-        <p class="text-[9px] uppercase tracking-[0.3em] text-[#937254] font-bold">JOIN US AT</p>
-        <h2 class="font-luxury text-3xl text-[#4a3b32] font-semibold">Our Special Place</h2>
-        <div class="text-[#c2410c] text-xs">♥</div>
-        <p class="text-[9px] uppercase tracking-[0.25em] text-[#7e6451] font-semibold">WE CAN'T WAIT TO CELEBRATE WITH YOU</p>
-
-        <div class="w-full max-w-[310px] bg-white/90 p-5 rounded-3xl border border-[#b88f6b]/35 shadow-sm space-y-3">
-          <div class="w-14 h-14 mx-auto rounded-full bg-[#faeae1] flex items-center justify-center text-xl shadow-inner">
-            📍
-          </div>
-          <h3 id="hallDisplay" class="font-luxury text-2xl font-bold text-[#4a3b32]">THE GARDEN PALACE</h3>
-          <div class="text-[#c2410c] text-xs">♥</div>
-          <p class="text-xs text-[#6e5645] leading-relaxed">
-            Happiness Street 123<br>Cairo, Egypt
-          </p>
-
-          <p class="text-[11px] italic text-[#9c8270] pt-1">
-            ♥ Our special place where our forever begins 📍
-          </p>
-
-          <a id="mapsLink" href="#" target="_blank" class="gold-btn block w-full py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition mt-2">
-            OPEN LOCATION ↗
-          </a>
-        </div>
-      </section>
-
-      <!-- Slide 8: نموذج تأكيد الحضور RSVP (المطابق للفيديو) -->
+      <!-- Slide 7: نموذج تأكيد الحضور RSVP (قبل اللوكيشن) -->
       <section id="rsvpSection" class="slide-item px-6 text-center space-y-4">
         <h2 class="font-luxury text-3xl text-[#4a3b32] font-semibold tracking-wider">RSVP</h2>
         <div class="text-[#c2410c] text-xs">♥ ♥ ♥</div>
@@ -484,34 +461,54 @@
             ▼ SEND RSVP
           </button>
         </div>
-
-        <a href="https://www.instagram.com/1eventapp" target="_blank" class="inline-block text-[9px] text-[#a18774] uppercase tracking-widest pt-1 hover:text-amber-800 transition">Powered by 1EventApp</a>
       </section>
 
-      <!-- Slide 9: دفتر الذكريات الكلاسيكي Guest Book (للأبواب والظرف) -->
-      <section id="guestBookSection" class="slide-item px-6 text-center space-y-4">
-        <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Guest Book ✍️</p>
-        <p class="text-xs text-stone-600">شارك العروسين تهنئتك وسجل كلمتك في دفتر الذكريات</p>
+      <!-- Slide 8 (النهائية): مكان القاعة Location + بادج إنستجرام 1EventApp الصايع -->
+      <section class="slide-item px-6 text-center space-y-4">
+        <p class="text-[9px] uppercase tracking-[0.3em] text-[#937254] font-bold">JOIN US AT</p>
+        <h2 class="font-luxury text-3xl text-[#4a3b32] font-semibold">Our Special Place</h2>
+        <div class="text-[#c2410c] text-xs">♥</div>
+        <p class="text-[9px] uppercase tracking-[0.25em] text-[#7e6451] font-semibold">WE CAN'T WAIT TO CELEBRATE WITH YOU</p>
 
-        <div class="w-full max-w-[320px] bg-white/90 p-4 rounded-3xl border border-stone-200 shadow-md space-y-3">
-          <input type="text" id="guestNameInput" placeholder="اسمك الكريم" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 text-right">
-          <textarea id="guestMsgInput" rows="2" placeholder="اكتب مباركتك للعروسين..." class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-800 focus:outline-none focus:border-amber-400 resize-none text-right"></textarea>
-          <button id="sendWishBtn" onclick="submitGuestWish()" class="w-full bg-stone-900 hover:bg-stone-800 text-amber-200 font-bold py-2.5 rounded-xl text-xs shadow-md transition disabled:opacity-50">
-            إرسال التهنئة ✨
-          </button>
+        <div class="w-full max-w-[310px] bg-white/90 p-5 rounded-3xl border border-[#b88f6b]/35 shadow-sm space-y-3">
+          <div class="w-14 h-14 mx-auto rounded-full bg-[#faeae1] flex items-center justify-center text-xl shadow-inner">
+            📍
+          </div>
+          <h3 id="hallDisplay" class="font-luxury text-2xl font-bold text-[#4a3b32]">THE GARDEN PALACE</h3>
+          <div class="text-[#c2410c] text-xs">♥</div>
+          <p class="text-xs text-[#6e5645] leading-relaxed">
+            Happiness Street 123<br>Cairo, Egypt
+          </p>
+
+          <p class="text-[11px] italic text-[#9c8270] pt-1">
+            ♥ Our special place where our forever begins 📍
+          </p>
+
+          <a id="mapsLink" href="#" target="_blank" class="gold-btn block w-full py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition mt-2">
+            OPEN LOCATION ↗
+          </a>
         </div>
 
-        <div id="wishesList" class="w-full max-w-[320px] max-h-44 overflow-y-auto space-y-2 pr-1"></div>
+        <!-- البادج الصايع لإنستجرام 1EventApp في آخر الصفحة -->
+        <div class="pt-3 flex flex-col items-center gap-1.5">
+          <a href="https://www.instagram.com/1eventapp" target="_blank" class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-stone-900/90 border border-amber-300/40 text-amber-200 text-xs font-semibold shadow-xl hover:scale-105 transition duration-300 backdrop-blur-md">
+            <span>📸</span>
+            <span class="tracking-wider font-mono">@1eventapp</span>
+          </a>
+          <p class="text-[8px] text-stone-400 uppercase tracking-widest font-medium">POWERED BY 1EVENTAPP</p>
+        </div>
       </section>
 
     </div>
 
-    <!-- شريط التحكم السفلي العائم + زر الإنستجرام الخاص بك -->
+    <!-- شريط التحكم السفلي العائم + رقم واتساب المباشر وزر الإنستجرام -->
     <footer id="bottomBar" class="absolute bottom-3 left-4 right-4 z-40 bg-white/70 backdrop-blur-md rounded-full px-4 py-2 border border-[#b88f6b]/30 flex items-center justify-between shadow-lg">
       <div class="flex items-center gap-2">
-        <a id="shareWaLink" href="#" target="_blank" class="w-7 h-7 rounded-full bg-[#25D366] text-white flex items-center justify-center text-xs shadow">
+        <!-- زر الواتساب برقمك مباشرة -->
+        <a id="shareWaLink" href="https://wa.me/201018739978" target="_blank" class="w-7 h-7 rounded-full bg-[#25D366] text-white flex items-center justify-center text-xs shadow hover:scale-105 transition">
           💬
         </a>
+        <!-- زر إنستجرام -->
         <a id="instaLink" href="https://www.instagram.com/1eventapp" target="_blank" class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center text-xs shadow font-bold hover:scale-105 transition" title="1EventApp Instagram">
           📸
         </a>
@@ -802,57 +799,6 @@
       window.open(calUrl, '_blank');
     }
 
-    async function submitGuestWish() {
-      const nameInput = document.getElementById('guestNameInput');
-      const msgInput = document.getElementById('guestMsgInput');
-      const sendBtn = document.getElementById('sendWishBtn');
-      const name = nameInput.value.trim();
-      const msg = msgInput.value.trim();
-
-      if (!name || !msg) {
-        alert('يرجى كتابة الاسم والتهنئة 🤍');
-        return;
-      }
-
-      if (sendBtn) {
-        sendBtn.disabled = true;
-        sendBtn.innerText = 'جاري الإرسال... ⏳';
-      }
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name,
-            message: msg,
-            wedding: `${groomGlobal} & ${brideGlobal}`
-          })
-        });
-
-        const list = document.getElementById('wishesList');
-        const wishCard = document.createElement('div');
-        wishCard.className = 'bg-amber-50/90 p-2.5 rounded-xl border border-amber-200/60 text-right text-xs shadow-sm';
-        wishCard.innerHTML = `
-          <span class="font-bold text-amber-950 block">${name}</span>
-          <p class="text-[11px] text-stone-600 mt-0.5">${msg}</p>
-        `;
-        list.prepend(wishCard);
-
-        nameInput.value = '';
-        msgInput.value = '';
-        alert('شكراً لك! تم تسجيل تهنئتك الملكية بنجاح 🤍💍');
-      } catch (err) {
-        alert('حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى.');
-      } finally {
-        if (sendBtn) {
-          sendBtn.disabled = false;
-          sendBtn.innerText = 'إرسال التهنئة ✨';
-        }
-      }
-    }
-
     function applySelectedFont(fontFamilyClass) {
       const targets = [
         document.getElementById('groomDisplay'),
@@ -946,28 +892,26 @@
         renderTimeline(urlTimelineList);
       }
 
-      const shareText = encodeURIComponent(`We invite you to celebrate our wedding: ${window.location.href}`);
-      document.getElementById('shareWaLink').href = `https://wa.me/?text=${shareText}`;
+      // ربط رسالة الواتساب الجاهزة برقمك
+      const shareMsg = encodeURIComponent(`مرحباً! أود الاستفسار بخصوص دعوة زفاف ${groomGlobal} & ${brideGlobal} 💍✨\n${window.location.href}`);
+      document.getElementById('shareWaLink').href = `https://wa.me/201018739978?text=${shareMsg}`;
 
-      // توزيع الأنماط الثلاثة بدقة
+      // توزيع الأنماط بدقة
       if (urlStyle === 'doors') {
         document.getElementById('doorScreen').classList.remove('hidden');
         document.getElementById('floatingMusicBtn').classList.remove('hidden');
         document.getElementById('photosSection')?.classList.remove('hidden');
         document.getElementById('calendarSection')?.classList.remove('hidden');
-        document.getElementById('guestBookSection')?.classList.remove('hidden');
       } else if (urlStyle === 'envelope') {
         document.getElementById('envelopeScreen').classList.remove('hidden');
         document.getElementById('floatingMusicBtn').classList.remove('hidden');
         document.getElementById('photosSection')?.classList.remove('hidden');
         document.getElementById('calendarSection')?.classList.remove('hidden');
-        document.getElementById('guestBookSection')?.classList.remove('hidden');
       } else {
         // نمط فرحة (Farha Nude Luxury) المطابق للفيديو بالكامل
         document.getElementById('farhaCoverScreen').classList.remove('hidden');
         document.getElementById('photosSection')?.classList.add('hidden');
         document.getElementById('calendarSection')?.classList.add('hidden');
-        document.getElementById('guestBookSection')?.classList.add('hidden');
       }
     }
 

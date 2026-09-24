@@ -117,6 +117,28 @@
       transform: translateY(-80px) scale(1.03);
     }
 
+    /* كروت الكشط */
+    .scratch-box {
+      position: relative;
+      width: 82px;
+      height: 76px;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 4px 15px rgba(180, 130, 80, 0.15);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .scratch-canvas {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      touch-action: none;
+    }
+
     .petal {
       position: absolute;
       background: radial-gradient(circle, #fbcfe8 20%, #f472b6 90%);
@@ -240,7 +262,47 @@
         </p>
       </section>
 
-      <!-- Slide 3: Countdown & Calendar -->
+      <!-- Slide 3: Scratch to Reveal Date (مضافة ومدمجة بالكامل بنفس شكل الفيديو) -->
+      <section class="slide-item px-5 text-center space-y-4">
+        <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">SCRATCH TO REVEAL</p>
+        <h2 class="font-luxury text-3xl text-stone-800 font-bold">Our Special Date</h2>
+        <div class="text-amber-600 text-xs">♥</div>
+        <p class="text-xs text-amber-900/80 italic font-luxury">✨ Scratch to reveal the date ✨</p>
+
+        <div class="flex justify-center items-center gap-3 pt-2">
+          <!-- Day -->
+          <div class="flex flex-col items-center">
+            <div class="scratch-box">
+              <span id="scratchDayText" class="font-mono text-xl font-bold text-amber-950">18</span>
+              <canvas id="canvasDay" width="82" height="76" class="scratch-canvas"></canvas>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-stone-400 font-bold mt-1.5">DAY</span>
+          </div>
+
+          <!-- Month -->
+          <div class="flex flex-col items-center">
+            <div class="scratch-box !w-[104px]">
+              <span id="scratchMonthText" class="font-luxury text-base font-bold text-amber-950">October</span>
+              <canvas id="canvasMonth" width="104" height="76" class="scratch-canvas"></canvas>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-stone-400 font-bold mt-1.5">MONTH</span>
+          </div>
+
+          <!-- Year -->
+          <div class="flex flex-col items-center">
+            <div class="scratch-box">
+              <span id="scratchYearText" class="font-mono text-xl font-bold text-amber-950">2026</span>
+              <canvas id="canvasYear" width="82" height="76" class="scratch-canvas"></canvas>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-stone-400 font-bold mt-1.5">YEAR</span>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-stone-500 italic pt-2">Swipe gently with your finger</p>
+        <div class="text-amber-600 text-xs">♥</div>
+      </section>
+
+      <!-- Slide 4: Countdown & Calendar -->
       <section class="slide-item px-5 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Save The Date</p>
         
@@ -301,13 +363,13 @@
         </div>
       </section>
 
-      <!-- Slide 4: Timeline -->
+      <!-- Slide 5: Timeline -->
       <section id="timelineSection" class="slide-item px-6 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Wedding Timeline</p>
         <div id="timelineContainer" class="w-full max-w-[320px] space-y-2.5"></div>
       </section>
 
-      <!-- Slide 5: Live Guest Book -->
+      <!-- Slide 6: Live Guest Book -->
       <section class="slide-item px-6 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Guest Book ✍️</p>
         <p class="text-xs text-stone-600">شارك العروسين تهنئتك وسجل كلمتك في دفتر الذكريات</p>
@@ -323,7 +385,7 @@
         <div id="wishesList" class="w-full max-w-[320px] max-h-44 overflow-y-auto space-y-2 pr-1"></div>
       </section>
 
-      <!-- Slide 6: Venue & Map -->
+      <!-- Slide 7: Venue & Map -->
       <section class="slide-item px-6 text-center space-y-6">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">Location</p>
         <div class="space-y-2">
@@ -475,6 +537,51 @@
       }, 1000);
     }
 
+    /* تشغيل نظام كشط التاريخ باللمس والماوس */
+    function setupScratchCanvas(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      // رسم الغطاء الدهبي المتدرج
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      grad.addColorStop(0, '#d97706');
+      grad.addColorStop(0.5, '#fbbf24');
+      grad.addColorStop(1, '#b45309');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#78350f';
+      ctx.font = '20px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('❤', canvas.width / 2, canvas.height / 2);
+
+      let isDrawing = false;
+
+      function scratch(e) {
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 16, 0, Math.PI * 2, false);
+        ctx.fill();
+      }
+
+      canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+      canvas.addEventListener('mousemove', scratch);
+      window.addEventListener('mouseup', () => isDrawing = false);
+
+      canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); }, { passive: true });
+      canvas.addEventListener('touchmove', scratch, { passive: true });
+      window.addEventListener('touchend', () => isDrawing = false);
+    }
+
     function addToCalendar() {
       const title = encodeURIComponent(`Wedding of ${groomGlobal} & ${brideGlobal} 💍`);
       const details = encodeURIComponent(`We are thrilled to celebrate our wedding with you at ${hallGlobal}!`);
@@ -598,14 +705,20 @@
         document.getElementById('monogramLetters').innerText = `${gChar} & ${bChar}`;
       }
 
-      if (urlDate) {
-        weddingDateGlobal = urlDate;
-        document.getElementById('dateDisplay').innerText = urlDate;
-        renderCalendar(urlDate);
-        startCountdown(urlDate, urlTime || '17:00');
-      } else {
-        renderCalendar('2026-10-18');
-        startCountdown('2026-10-18', '17:00');
+      const activeDate = urlDate || '2026-10-18';
+      weddingDateGlobal = activeDate;
+      document.getElementById('dateDisplay').innerText = activeDate;
+      renderCalendar(activeDate);
+      startCountdown(activeDate, urlTime || '17:00');
+
+      // ضبط نصوص كروت الكشط من التاريخ
+      const dObj = new Date(activeDate);
+      if (!isNaN(dObj)) {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const dNum = dObj.getDate();
+        document.getElementById('scratchDayText').innerText = dNum < 10 ? '0' + dNum : dNum;
+        document.getElementById('scratchMonthText').innerText = monthNames[dObj.getMonth()];
+        document.getElementById('scratchYearText').innerText = dObj.getFullYear();
       }
 
       if (urlTime) {
@@ -692,6 +805,9 @@
     window.onload = function() {
       loadSavedData();
       initPetals();
+      setupScratchCanvas('canvasDay');
+      setupScratchCanvas('canvasMonth');
+      setupScratchCanvas('canvasYear');
     };
   </script>
 </body>

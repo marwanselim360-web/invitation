@@ -1,13 +1,16 @@
+Hwa da genrtion
+
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tevetapp Studio - Generator</title>
+  <title>1EventApp Studio - Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cairo:wght@400;600;700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:wght@600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cairo:wght@400;600;700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Cairo', sans-serif; background-color: #090d16; color: #f3f4f6; }
     .font-script { font-family: 'Alex Brush', cursive; }
@@ -15,6 +18,10 @@
     .font-playfair { font-family: 'Playfair Display', serif; }
     .font-vibes { font-family: 'Great Vibes', cursive; }
     .font-cinzel { font-family: 'Cinzel', serif; }
+    .arch-preview {
+      border: 1px solid rgba(184, 143, 107, 0.5);
+      border-radius: 120px 120px 20px 20px;
+    }
   </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
@@ -24,7 +31,7 @@
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 flex items-center justify-center text-stone-950 font-bold text-xl shadow-lg">1</div>
       <div>
-        <h1 class="text-xl font-bold tracking-wide text-white">1evetapp Studio</h1>
+        <h1 class="text-xl font-bold tracking-wide text-white">1EventApp Studio</h1>
         <p class="text-xs text-stone-400">لوحة التحكم وتوليد دعوات الزفاف الملكية</p>
       </div>
     </div>
@@ -40,32 +47,78 @@
     <!-- Form Section -->
     <div class="lg:col-span-8 space-y-6">
 
-      <!-- Opening Style Selection -->
+      <!-- نمط الـ 3 خيارات لاختيار ستايل الدعوة للعميل -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
           <span>✨</span> ستايل ونمط الدعوة (OPENING STYLE)
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div id="doorsOption" onclick="selectStyle('doors')" class="border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- الخيار الأول: ديزاين فرحة النيود المطابق للفيديو بالكامل -->
+          <div id="farhaOption" onclick="selectStyle('farha')" class="border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition">
+            <div>
+              <p class="font-bold text-white text-sm">ثيم فرحة (Farha Nude)</p>
+              <p class="text-[11px] text-stone-400 mt-1">ديزاين الفيديو + كشط + RSVP</p>
+            </div>
+            <span id="farhaIndicator" class="w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20 shrink-0"></span>
+          </div>
+
+          <!-- الخيار الثاني: الباب الدهبي 3D -->
+          <div id="doorsOption" onclick="selectStyle('doors')" class="border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition">
             <div>
               <p class="font-bold text-white text-sm">الباب الدهبي (Grand Doors)</p>
-              <p class="text-xs text-stone-400 mt-1">افتتاحية ثلاثية الأبعاد بضلف دهبية</p>
+              <p class="text-[11px] text-stone-400 mt-1">افتتاحية ثلاثية الأبعاد بضلف دهبية</p>
             </div>
-            <span id="doorsIndicator" class="w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20"></span>
+            <span id="doorsIndicator" class="w-4 h-4 rounded-full border border-stone-600 shrink-0"></span>
           </div>
           
+          <!-- الخيار الثالث: الظرف الملكي والشمع -->
           <div id="envelopeOption" onclick="selectStyle('envelope')" class="border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition">
             <div>
-              <p class="font-bold text-white text-sm">الظرف الملكي (Wax-Sealed Envelope)</p>
-              <p class="text-xs text-stone-400 mt-1">ختم شمع بارز بحروف العروسين</p>
+              <p class="font-bold text-white text-sm">الظرف الملكي (Wax-Sealed)</p>
+              <p class="text-[11px] text-stone-400 mt-1">ختم شمع بارز بحروف العروسين</p>
             </div>
-            <span id="envelopeIndicator" class="w-4 h-4 rounded-full border border-stone-600"></span>
+            <span id="envelopeIndicator" class="w-4 h-4 rounded-full border border-stone-600 shrink-0"></span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- تفاصيل وأسماء العروسين -->
+      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+          <span>👤</span> تفاصيل وأسماء العروسين
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">اسم العريس</label>
+            <input type="text" id="groomInput" value="Adam" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">اسم العروسة</label>
+            <input type="text" id="brideInput" value="Nada" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">تاريخ الحفل</label>
+            <input type="date" id="dateInput" value="2026-11-11" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">ميعاد بدء الحفل</label>
+            <input type="time" id="timeInput" value="18:00" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">مكان القاعة / الفندق</label>
+            <input type="text" id="hallInput" value="THE GARDEN PALACE" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs text-stone-400 mb-2">رابط لوكيشن خرائط جوجل</label>
+            <input type="text" id="mapsInput" value="https://maps.google.com" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
           </div>
         </div>
       </section>
 
-      <!-- Wedding Timeline Option -->
-      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+      <!-- Wedding Timeline Option (للأنماط التي تستخدم التايم لاين) -->
+      <section id="timelineSectionForm" class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <div class="flex items-center justify-between pb-2 border-b border-stone-800">
           <div>
             <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
@@ -86,7 +139,7 @@
         </button>
       </section>
 
-      <!-- Colors & Fonts -->
+      <!-- الألوان ونوع الخط -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
           <span>🎨</span> الألوان ونوع الخط
@@ -95,7 +148,8 @@
           <div>
             <label class="block text-xs text-stone-400 mb-2">نوع الخط الأساسي (Font Style)</label>
             <select id="fontSelect" onchange="changeFontFamily(this.value)" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-3 py-2.5 text-xs text-amber-200 outline-none focus:border-amber-400">
-              <option value="font-playfair">Playfair Display (فخم وواضح)</option>
+              <option value="font-luxury">Cormorant Garamond (فخم ورصين - فرحة)</option>
+              <option value="font-playfair">Playfair Display (عصري بارز)</option>
               <option value="font-vibes">Great Vibes (مائل ورومانسي)</option>
               <option value="font-script">Alex Brush (كلاسيكي)</option>
               <option value="font-cinzel">Cinzel (ملكي إنجليزي)</option>
@@ -104,21 +158,21 @@
           <div>
             <label class="block text-xs text-stone-400 mb-2">لون الخط الأساسي (Primary Color)</label>
             <div class="flex items-center gap-3 bg-stone-950/80 border border-stone-800 p-2 rounded-xl">
-              <input type="color" id="primaryColorInput" value="#78350f" class="w-8 h-8 rounded-lg bg-transparent border-0 cursor-pointer">
-              <span id="colorHexText" class="text-xs font-mono text-stone-300">#78350f</span>
+              <input type="color" id="primaryColorInput" value="#4a3b32" class="w-8 h-8 rounded-lg bg-transparent border-0 cursor-pointer">
+              <span id="colorHexText" class="text-xs font-mono text-stone-300">#4a3b32</span>
             </div>
           </div>
           <div>
             <label class="block text-xs text-stone-400 mb-2">لون خلفية الكارت (Card Background)</label>
             <div class="flex items-center gap-3 bg-stone-950/80 border border-stone-800 p-2 rounded-xl">
-              <input type="color" id="bgColorInput" value="#fcf9f5" class="w-8 h-8 rounded-lg bg-transparent border-0 cursor-pointer">
-              <span id="bgHexText" class="text-xs font-mono text-stone-300">#fcf9f5</span>
+              <input type="color" id="bgColorInput" value="#fbf5ee" class="w-8 h-8 rounded-lg bg-transparent border-0 cursor-pointer">
+              <span id="bgHexText" class="text-xs font-mono text-stone-300">#fbf5ee</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Music -->
+      <!-- الأغنية والصوتيات -->
       <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
           <span>🎵</span> الأغنية والصوتيات
@@ -134,61 +188,20 @@
         </div>
       </section>
 
-      <!-- Couple Data -->
-      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
+      <!-- صور العروسين المنفصلة (للأبواب والظرف) -->
+      <section id="separatePhotosSection" class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-          <span>👤</span> تفاصيل وأسماء العروسين
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs text-stone-400 mb-2">اسم العريس</label>
-            <input type="text" id="groomInput" value="Marwan" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
-          </div>
-          <div>
-            <label class="block text-xs text-stone-400 mb-2">اسم العروسة</label>
-            <input type="text" id="brideInput" value="Mariam" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
-          </div>
-          <div>
-            <label class="block text-xs text-stone-400 mb-2">تاريخ الحفل</label>
-            <input type="date" id="dateInput" value="2026-10-18" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
-          </div>
-          <div>
-            <label class="block text-xs text-stone-400 mb-2">ميعاد بدء الحفل</label>
-            <input type="time" id="timeInput" value="17:00" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
-          </div>
-          <div>
-            <label class="block text-xs text-stone-400 mb-2">مكان القاعة / الفندق</label>
-            <input type="text" id="hallInput" value="DUSIT THANI" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
-          </div>
-          <div>
-            <label class="block text-xs text-stone-400 mb-2">رابط لوكيشن خرائط جوجل</label>
-            <input type="text" id="mapsInput" value="https://maps.app.goo.gl/q6yVbSqUeXqSYq_4SA6" class="w-full bg-stone-950/80 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400">
-          </div>
-        </div>
-      </section>
-
-      <!-- Separate Photos -->
-      <section class="bg-stone-900/60 border border-stone-800 p-6 rounded-3xl space-y-4">
-        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-          <span>📸</span> صور العروسين المنفصلة
+          <span>📸</span> صور العروسين المنفصلة (للأبواب والظرف)
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-stone-950/60 border border-stone-800 p-4 rounded-2xl space-y-3">
             <p class="text-xs font-bold text-stone-300">صورة العريس (Groom Image)</p>
             <input type="file" id="groomImgInput" accept="image/*" class="text-xs text-stone-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:bg-stone-800 file:text-amber-300 file:font-bold hover:file:bg-stone-700 cursor-pointer">
-            <div class="w-20 h-24 rounded-xl border border-stone-800 overflow-hidden bg-stone-900 flex items-center justify-center">
-              <img id="groomPreview" class="w-full h-full object-cover hidden">
-              <span id="groomPlaceholder" class="text-[10px] text-stone-500">معاينة</span>
-            </div>
           </div>
 
           <div class="bg-stone-950/60 border border-stone-800 p-4 rounded-2xl space-y-3">
             <p class="text-xs font-bold text-stone-300">صورة العروسة (Bride Image)</p>
             <input type="file" id="brideImgInput" accept="image/*" class="text-xs text-stone-400 file:mr-2 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:bg-stone-800 file:text-amber-300 file:font-bold hover:file:bg-stone-700 cursor-pointer">
-            <div class="w-20 h-24 rounded-xl border border-stone-800 overflow-hidden bg-stone-900 flex items-center justify-center">
-              <img id="bridePreview" class="w-full h-full object-cover hidden">
-              <span id="bridePlaceholder" class="text-[10px] text-stone-500">معاينة</span>
-            </div>
           </div>
         </div>
       </section>
@@ -200,42 +213,27 @@
       <div class="sticky top-8 w-full max-w-[340px] space-y-3">
         <p class="text-center text-xs font-bold text-stone-400">معاينة حية للموبايل (LIVE PREVIEW)</p>
         
-        <div id="phonePreviewFrame" class="w-full aspect-[9/19] bg-[#fcf9f5] rounded-[40px] shadow-2xl border-4 border-stone-800 overflow-hidden relative flex flex-col justify-between p-5 text-center text-stone-800">
+        <div id="phonePreviewFrame" class="w-full aspect-[9/19] bg-[#fbf5ee] rounded-[40px] shadow-2xl border-4 border-stone-800 overflow-hidden relative flex flex-col justify-between p-4 text-center text-stone-800">
           
-          <div class="pt-4 space-y-1">
-            <p class="text-[8px] uppercase tracking-[0.25em] text-amber-800 font-bold">TOGETHER WITH THEIR FAMILIES</p>
-            <h3 id="prevGroom" class="font-playfair font-bold text-3xl text-amber-950 leading-tight">Marwan</h3>
-            <p class="font-luxury italic text-sm text-stone-400">&</p>
-            <h3 id="prevBride" class="font-playfair font-bold text-3xl text-amber-950 leading-tight">Mariam</h3>
-          </div>
-
-          <div class="my-2 space-y-2">
-            <div class="grid grid-cols-2 gap-2 w-full px-1">
-              <div class="bg-white/90 p-1.5 rounded-2xl border border-stone-200/80 shadow-md">
-                <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center">
-                  <img id="prevGroomThumb" class="w-full h-full object-cover hidden">
-                  <span id="prevGroomEmpty" class="text-[9px] text-stone-400">صورة العريس</span>
-                </div>
-                <p id="prevGroomLabel" class="font-playfair font-bold text-sm text-amber-950 mt-1">Groom</p>
-              </div>
-
-              <div class="bg-white/90 p-1.5 rounded-2xl border border-stone-200/80 shadow-md">
-                <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center">
-                  <img id="prevBrideThumb" class="w-full h-full object-cover hidden">
-                  <span id="prevBrideEmpty" class="text-[9px] text-stone-400">صورة العروسة</span>
-                </div>
-                <p id="prevBrideLabel" class="font-playfair font-bold text-sm text-amber-950 mt-1">Bride</p>
-              </div>
+          <div id="previewInnerBox" class="w-full h-full arch-preview bg-white/40 p-4 flex flex-col items-center justify-between">
+            <div class="w-12 h-12 rounded-full border border-[#b88f6b]/70 flex items-center justify-center mt-2 shadow-inner">
+              <span id="prevMonogram" class="font-luxury font-bold text-sm tracking-widest text-[#7a5738]">A & N</span>
             </div>
 
-            <p class="font-luxury italic text-[11px] text-amber-900/80 pt-1">
-              "Two souls, one heart, together forever"
-            </p>
-          </div>
+            <div class="space-y-1 my-auto">
+              <p class="text-[7px] uppercase tracking-[0.3em] text-[#937254] font-bold">THE WEDDING OF</p>
+              <h3 id="prevGroom" class="font-luxury font-semibold text-3xl text-[#4a3b32] leading-tight">Adam</h3>
+              <p class="font-luxury italic text-xl text-[#b88f6b]">&</p>
+              <h3 id="prevBride" class="font-luxury font-semibold text-3xl text-[#4a3b32] leading-tight">Nada</h3>
+              <div class="text-[#c2410c] text-xs pt-1">♥</div>
+              <p id="prevDate" class="text-[9px] uppercase tracking-widest text-[#786151] font-medium pt-1">November 11, 2026</p>
+            </div>
 
-          <div class="pb-3 border-t border-stone-200/60 pt-2 space-y-0.5">
-            <p id="prevDate" class="text-[9px] font-mono tracking-widest text-stone-500 uppercase">2026-10-18</p>
-            <p id="prevHall" class="text-[9px] font-bold text-stone-700 uppercase">DUSIT THANI</p>
+            <div class="w-full pb-2">
+              <div class="w-full py-2 bg-gradient-to-r from-[#c5a07e] to-[#a27a56] text-white rounded-full text-[9px] font-bold tracking-widest uppercase shadow">
+                OPEN INVITATION
+              </div>
+            </div>
           </div>
 
         </div>
@@ -266,12 +264,12 @@
   <audio id="audioPreviewPlayer" loop></audio>
 
   <script>
-    let selectedOpeningStyle = 'doors';
+    let selectedOpeningStyle = 'farha';
     let groomImgData = '';
     let brideImgData = '';
     let audioData = '';
     let isAudioPlaying = false;
-    let selectedFontClass = 'font-playfair';
+    let selectedFontClass = 'font-luxury';
     const audioEl = document.getElementById('audioPreviewPlayer');
 
     let timelineList = [
@@ -283,6 +281,7 @@
 
     function renderTimelineRows() {
       const wrapper = document.getElementById('timelineItemsWrapper');
+      if (!wrapper) return;
       wrapper.innerHTML = '';
       timelineList.forEach((item, index) => {
         wrapper.innerHTML += `
@@ -314,12 +313,7 @@
 
     function changeFontFamily(val) {
       selectedFontClass = val;
-      const targets = [
-        document.getElementById('prevGroom'),
-        document.getElementById('prevBride'),
-        document.getElementById('prevGroomLabel'),
-        document.getElementById('prevBrideLabel')
-      ];
+      const targets = [document.getElementById('prevGroom'), document.getElementById('prevBride')];
       const fonts = ['font-script', 'font-luxury', 'font-playfair', 'font-vibes', 'font-cinzel'];
       targets.forEach(el => {
         if (el) {
@@ -329,38 +323,55 @@
       });
     }
 
+    /* التنقل بين الـ 3 أنماط */
     function selectStyle(style) {
       selectedOpeningStyle = style;
+      const farhaOpt = document.getElementById('farhaOption');
       const doorsOpt = document.getElementById('doorsOption');
       const envOpt = document.getElementById('envelopeOption');
+
+      const farhaInd = document.getElementById('farhaIndicator');
       const doorsInd = document.getElementById('doorsIndicator');
       const envInd = document.getElementById('envelopeIndicator');
 
-      if (style === 'doors') {
-        doorsOpt.className = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
-        doorsInd.className = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20";
-        envOpt.className = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
-        envInd.className = "w-4 h-4 rounded-full border border-stone-600";
-      } else {
-        envOpt.className = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
-        envInd.className = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20";
-        doorsOpt.className = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
-        doorsInd.className = "w-4 h-4 rounded-full border border-stone-600";
+      const activeClasses = "border-2 border-amber-500/80 bg-stone-950/60 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition";
+      const inactiveClasses = "border border-stone-800 bg-stone-950/30 p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-stone-700 transition";
+
+      const activeDot = "w-4 h-4 rounded-full bg-amber-400 ring-4 ring-amber-400/20 shrink-0";
+      const inactiveDot = "w-4 h-4 rounded-full border border-stone-600 shrink-0";
+
+      farhaOpt.className = (style === 'farha') ? activeClasses : inactiveClasses;
+      farhaInd.className = (style === 'farha') ? activeDot : inactiveDot;
+
+      doorsOpt.className = (style === 'doors') ? activeClasses : inactiveClasses;
+      doorsInd.className = (style === 'doors') ? activeDot : inactiveDot;
+
+      envOpt.className = (style === 'envelope') ? activeClasses : inactiveClasses;
+      envInd.className = (style === 'envelope') ? activeDot : inactiveDot;
+    }
+
+    function updateLivePreview() {
+      const g = document.getElementById('groomInput').value || 'Adam';
+      const b = document.getElementById('brideInput').value || 'Nada';
+      const d = document.getElementById('dateInput').value || '2026-11-11';
+
+      document.getElementById('prevGroom').innerText = g;
+      document.getElementById('prevBride').innerText = b;
+
+      const gChar = g.trim().charAt(0).toUpperCase();
+      const bChar = b.trim().charAt(0).toUpperCase();
+      document.getElementById('prevMonogram').innerText = `${gChar} & ${bChar}`;
+
+      const dObj = new Date(d);
+      if (!isNaN(dObj)) {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        document.getElementById('prevDate').innerText = `${monthNames[dObj.getMonth()]} ${dObj.getDate()}, ${dObj.getFullYear()}`;
       }
     }
 
-    document.getElementById('groomInput').addEventListener('input', e => {
-      document.getElementById('prevGroom').innerText = e.target.value || 'Groom';
-    });
-    document.getElementById('brideInput').addEventListener('input', e => {
-      document.getElementById('prevBride').innerText = e.target.value || 'Bride';
-    });
-    document.getElementById('dateInput').addEventListener('input', e => {
-      document.getElementById('prevDate').innerText = e.target.value;
-    });
-    document.getElementById('hallInput').addEventListener('input', e => {
-      document.getElementById('prevHall').innerText = e.target.value;
-    });
+    document.getElementById('groomInput').addEventListener('input', updateLivePreview);
+    document.getElementById('brideInput').addEventListener('input', updateLivePreview);
+    document.getElementById('dateInput').addEventListener('input', updateLivePreview);
 
     document.getElementById('primaryColorInput').addEventListener('input', e => {
       const val = e.target.value;
@@ -379,19 +390,7 @@
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = () => {
-          groomImgData = reader.result;
-          const thumb = document.getElementById('prevGroomThumb');
-          thumb.src = groomImgData;
-          thumb.classList.remove('hidden');
-          document.getElementById('prevGroomEmpty')?.classList.add('hidden');
-          const prev = document.getElementById('groomPreview');
-          if (prev) {
-            prev.src = groomImgData;
-            prev.classList.remove('hidden');
-            document.getElementById('groomPlaceholder')?.classList.add('hidden');
-          }
-        };
+        reader.onload = () => { groomImgData = reader.result; };
         reader.readAsDataURL(file);
       }
     });
@@ -400,19 +399,7 @@
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = () => {
-          brideImgData = reader.result;
-          const thumb = document.getElementById('prevBrideThumb');
-          thumb.src = brideImgData;
-          thumb.classList.remove('hidden');
-          document.getElementById('prevBrideEmpty')?.classList.add('hidden');
-          const prev = document.getElementById('bridePreview');
-          if (prev) {
-            prev.src = brideImgData;
-            prev.classList.remove('hidden');
-            document.getElementById('bridePlaceholder')?.classList.add('hidden');
-          }
-        };
+        reader.onload = () => { brideImgData = reader.result; };
         reader.readAsDataURL(file);
       }
     });
@@ -478,7 +465,6 @@
         const json = await res.json();
         return (json && json.data && json.data.url) ? json.data.url : '';
       } catch (err) {
-        console.error("ImgBB Upload Error:", err);
         return '';
       }
     }
@@ -491,12 +477,8 @@
           body: JSON.stringify({ url: longUrl, groom: groom, bride: bride })
         });
         const data = await res.json();
-        if (data && data.shortUrl) {
-          return data.shortUrl;
-        }
-      } catch (err) {
-        console.warn("Backend error or unreachable, using original link", err);
-      }
+        if (data && data.shortUrl) return data.shortUrl;
+      } catch (err) {}
       return longUrl;
     }
 
@@ -516,18 +498,18 @@
       const btnIcon = document.getElementById('exportBtnIcon');
 
       btn.disabled = true;
-      btnText.innerText = 'جاري ضغط ورفع الصور...';
+      btnText.innerText = 'جاري معالجة الدعوة...';
       btnIcon.innerText = '⏳';
 
-      const groomVal = document.getElementById('groomInput').value || 'Marwan';
-      const brideVal = document.getElementById('brideInput').value || 'Mariam';
-      const dateVal = document.getElementById('dateInput').value || '2026-10-18';
-      const timeVal = document.getElementById('timeInput').value || '17:00';
-      const hallVal = document.getElementById('hallInput').value || 'DUSIT THANI';
-      const mapsVal = document.getElementById('mapsInput').value || '';
-      const colorVal = document.getElementById('primaryColorInput').value || '#78350f';
-      const bgVal = document.getElementById('bgColorInput').value || '#fcf9f5';
-      const timelineEnabled = document.getElementById('timelineToggle').checked;
+      const groomVal = document.getElementById('groomInput').value || 'Adam';
+      const brideVal = document.getElementById('brideInput').value || 'Nada';
+      const dateVal = document.getElementById('dateInput').value || '2026-11-11';
+      const timeVal = document.getElementById('timeInput').value || '18:00';
+      const hallVal = document.getElementById('hallInput').value || 'THE GARDEN PALACE';
+      const mapsVal = document.getElementById('mapsInput').value || 'https://maps.google.com';
+      const colorVal = document.getElementById('primaryColorInput').value || '#4a3b32';
+      const bgVal = document.getElementById('bgColorInput').value || '#fbf5ee';
+      const timelineEnabled = document.getElementById('timelineToggle')?.checked;
 
       try {
         let groomOnlineUrl = '';
@@ -552,17 +534,14 @@
 
         if (groomOnlineUrl) params.append('groomImg', groomOnlineUrl);
         if (brideOnlineUrl) params.append('brideImg', brideOnlineUrl);
-        
+
         const baseUrl = "https://marwanselim360-web.github.io/invitation/invite.html";
         const longUrl = `${baseUrl}?${params.toString()}`;
-        
-        btnText.innerText = 'جاري توليد الرابط باسم العروسين...';
+
         const finalShortUrl = await shortenUrl(longUrl, groomVal, brideVal);
-        
         document.getElementById('finalResultInput').value = finalShortUrl;
         document.getElementById('linkModal').classList.remove('hidden');
       } catch (err) {
-        console.error("Export error:", err);
         alert('حدث خطأ أثناء معالجة البيانات: ' + err.message);
       } finally {
         btn.disabled = false;
@@ -573,10 +552,8 @@
 
     window.onload = function() {
       renderTimelineRows();
+      updateLivePreview();
     };
   </script>
 </body>
 </html>
-
-
-

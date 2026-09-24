@@ -891,9 +891,8 @@
       } else {
         renderTimeline(urlTimelineList);
       }
-
-      // ربط رسالة الواتساب الجاهزة برقمك
-      const shareMsg = encodeURIComponent(`مرحباً! أود الاستفسار بخصوص دعوة زفاف ${groomGlobal} & ${brideGlobal} 💍✨\n${window.location.href}`);
+// رسالة واتساب مختصرة وشيك بدون الرابط الطويل
+      const shareMsg = encodeURIComponent(`مرحباً! أود الاستفسار والحجز بخصوص دعوة زفاف 1EventApp 💍✨`);
       document.getElementById('shareWaLink').href = `https://wa.me/201018739978?text=${shareMsg}`;
 
       // توزيع الأنماط بدقة

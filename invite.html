@@ -1,6 +1,4 @@
-Y3any da index
-
-
+هو ده كود صح؟؟
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,7 +125,7 @@ Y3any da index
     /* كروت الكشط */
     .scratch-box {
       position: relative;
-      width: 86px;
+      width: 84px;
       height: 76px;
       border-radius: 18px;
       background: #ffffff;
@@ -326,15 +324,15 @@ Y3any da index
           <div class="flex flex-col items-center">
             <div class="scratch-box">
               <span id="scratchDayText" class="font-luxury text-2xl font-bold text-[#4a3b32]">11</span>
-              <canvas id="canvasDay" width="86" height="76" class="scratch-canvas"></canvas>
+              <canvas id="canvasDay" width="84" height="76" class="scratch-canvas"></canvas>
             </div>
             <span class="text-[9px] uppercase tracking-widest text-[#8c6f58] mt-2 font-semibold">DAY</span>
           </div>
 
           <div class="flex flex-col items-center">
-            <div class="scratch-box !w-[104px]">
-              <span id="scratchMonthText" class="font-luxury text-lg font-bold text-[#4a3b32]">November</span>
-              <canvas id="canvasMonth" width="104" height="76" class="scratch-canvas"></canvas>
+            <div class="scratch-box !w-[106px]">
+              <span id="scratchMonthText" class="font-luxury text-base font-bold text-[#4a3b32]">November</span>
+              <canvas id="canvasMonth" width="106" height="76" class="scratch-canvas"></canvas>
             </div>
             <span class="text-[9px] uppercase tracking-widest text-[#8c6f58] mt-2 font-semibold">MONTH</span>
           </div>
@@ -342,7 +340,7 @@ Y3any da index
           <div class="flex flex-col items-center">
             <div class="scratch-box">
               <span id="scratchYearText" class="font-luxury text-2xl font-bold text-[#4a3b32]">2026</span>
-              <canvas id="canvasYear" width="86" height="76" class="scratch-canvas"></canvas>
+              <canvas id="canvasYear" width="84" height="76" class="scratch-canvas"></canvas>
             </div>
             <span class="text-[9px] uppercase tracking-widest text-[#8c6f58] mt-2 font-semibold">YEAR</span>
           </div>
@@ -487,7 +485,7 @@ Y3any da index
           </button>
         </div>
 
-        <p class="text-[8px] text-[#a18774] uppercase tracking-widest pt-1">Powered by 1EventApp</p>
+        <a href="https://www.instagram.com/1eventapp" target="_blank" class="inline-block text-[9px] text-[#a18774] uppercase tracking-widest pt-1 hover:text-amber-800 transition">Powered by 1EventApp</a>
       </section>
 
       <!-- Slide 9: دفتر الذكريات الكلاسيكي Guest Book (للأبواب والظرف) -->
@@ -508,14 +506,21 @@ Y3any da index
 
     </div>
 
-    <!-- شريط التحكم السفلي العائم (المطابق للفيديو) -->
+    <!-- شريط التحكم السفلي العائم + زر الإنستجرام الخاص بك -->
     <footer id="bottomBar" class="absolute bottom-3 left-4 right-4 z-40 bg-white/70 backdrop-blur-md rounded-full px-4 py-2 border border-[#b88f6b]/30 flex items-center justify-between shadow-lg">
-      <a id="shareWaLink" href="#" target="_blank" class="w-7 h-7 rounded-full bg-[#25D366] text-white flex items-center justify-center text-xs shadow">
-        💬
-      </a>
+      <div class="flex items-center gap-2">
+        <a id="shareWaLink" href="#" target="_blank" class="w-7 h-7 rounded-full bg-[#25D366] text-white flex items-center justify-center text-xs shadow">
+          💬
+        </a>
+        <a id="instaLink" href="https://www.instagram.com/1eventapp" target="_blank" class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center text-xs shadow font-bold hover:scale-105 transition" title="1EventApp Instagram">
+          📸
+        </a>
+      </div>
+
       <div class="text-[9px] text-[#8c6f58] font-medium italic">
         عقبال عندكم جميعاً 🤍
       </div>
+
       <button id="audioControlBtn" onclick="toggleAudio()" class="w-7 h-7 rounded-full bg-[#a27a56] text-white flex items-center justify-center text-xs shadow transition">
         ▶
       </button>

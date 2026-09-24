@@ -262,7 +262,7 @@
         </p>
       </section>
 
-      <!-- Slide 3: Scratch to Reveal Date (مضافة ومدمجة بالكامل بنفس شكل الفيديو) -->
+      <!-- Slide 3: Scratch to Reveal Date -->
       <section class="slide-item px-5 text-center space-y-4">
         <p class="text-[10px] tracking-[0.25em] uppercase font-bold text-amber-800">SCRATCH TO REVEAL</p>
         <h2 class="font-luxury text-3xl text-stone-800 font-bold">Our Special Date</h2>
@@ -543,7 +543,6 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
 
-      // رسم الغطاء الدهبي المتدرج
       const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
       grad.addColorStop(0, '#d97706');
       grad.addColorStop(0.5, '#fbbf24');
@@ -676,9 +675,16 @@
         renderTimeline(urlTimelineList);
       }
 
+      /* دعم الأنماط الثلاثة بدقة: الظرف، كارت الكشط، أو الأبواب */
       if (urlStyle === 'envelope') {
         document.getElementById('doorScreen').style.display = 'none';
         document.getElementById('envelopeScreen').classList.remove('hidden');
+      } else if (urlStyle === 'scratch') {
+        document.getElementById('doorScreen').style.display = 'none';
+        document.getElementById('envelopeScreen').style.display = 'none';
+      } else {
+        document.getElementById('doorScreen').style.display = 'flex';
+        document.getElementById('envelopeScreen').style.display = 'none';
       }
 
       if (urlFont) {
@@ -711,7 +717,6 @@
       renderCalendar(activeDate);
       startCountdown(activeDate, urlTime || '17:00');
 
-      // ضبط نصوص كروت الكشط من التاريخ
       const dObj = new Date(activeDate);
       if (!isNaN(dObj)) {
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
